@@ -1,0 +1,14 @@
+<!-- Main Layout Component -->
+<div class="dashboard-container">
+    {% include 'components/sidebar.html' %}
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        {% include 'components/topbar.html' %}
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<!-- Status Badge Component -->
+{% if status == 'online' %}
+<span style="background-color: #4caf50; color: #1b5e20; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Online</span>
+{% elif status == 'offline' %}
+<span style="background-color: #b0b0b0; color: #666666; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Offline</span>
+{% else %}
+<span style="background-color: {{ bg_color|default('#b0b0b0') }}; color: {{ text_color|default('#666666') }}; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">{{ status_text|default('Unknown') }}</span>
+{% endif %}

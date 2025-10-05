@@ -1,0 +1,10 @@
+<!-- Metric Card Component -->
+<div class="metric-card">
+    <div class="metric-title">{{ title }}</div>
+    <div class="metric-value-row">
+        <div class="metric-value" id="{{ id }}-count">{{ value }}</div>
+        <div class="metric-badge {{ badge_type|default('neutral') }}">{{ badge_text|default('+0%') }}</div>
+    </div>
+    <div class="metric-period">{{ period|default('Last 30 days') }}</div>
+    <div class="mini-chart" id="{{ id }}-chart"></div>
+</div>

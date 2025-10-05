@@ -1,0 +1,14 @@
+<!-- Chart Card Component -->
+<div class="chart-card">
+    <div class="chart-header">
+        <div class="chart-title">{{ title }}</div>
+        <div class="chart-value-row">
+            <div class="chart-value" id="{{ id }}-count">{{ value }}</div>
+            <div class="metric-badge {{ badge_type|default('neutral') }}" id="{{ id }}-change">{{ badge_text|default('+0%') }}</div>
+        </div>
+        <div class="chart-subtitle">{{ subtitle }}</div>
+    </div>
+    <div class="chart-container">
+        <canvas id="{{ id }}Chart"></canvas>
+    </div>
+</div>
