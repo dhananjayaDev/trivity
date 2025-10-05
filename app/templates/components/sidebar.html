@@ -20,61 +20,82 @@
     <!-- Navigation Menu -->
     <div class="nav-menu">
         <div class="nav-item">
-            <button class="nav-button active">
-                <span class="material-icons nav-icon">home</span>
-                <span class="nav-text">Home</span>
+            <button class="nav-button" data-page="dashboard">
+                <span class="material-icons nav-icon">dashboard</span>
+                <span class="nav-text">Dashboard</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button">
-                <span class="material-icons nav-icon">bar_chart</span>
-                <span class="nav-text">Analytics</span>
+            <button class="nav-button" data-page="sustainability-index">
+                <span class="material-icons nav-icon">assessment</span>
+                <span class="nav-text">Sustainability Readiness Index</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button">
-                <span class="material-icons nav-icon">people</span>
-                <span class="nav-text">Clients</span>
+            <button class="nav-button" data-page="recommended-sdgs">
+                <span class="material-icons nav-icon">eco</span>
+                <span class="nav-text">Recommended UN SDGs</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button">
-                <span class="material-icons nav-icon">assignment</span>
-                <span class="nav-text">Tasks</span>
+            <button class="nav-button" data-page="data-center">
+                <span class="material-icons nav-icon">storage</span>
+                <span class="nav-text">Data Center</span>
+            </button>
+        </div>
+        <div class="nav-item">
+            <button class="nav-button" data-page="carbon-calculator">
+                <span class="material-icons nav-icon">calculate</span>
+                <span class="nav-text">Carbon Emissions Calculator</span>
             </button>
         </div>
     </div>
     
-    <!-- Settings Menu -->
-    <div class="nav-menu settings-section">
+    <!-- Coming Soon Section -->
+    <div class="nav-menu coming-soon-section">
+        <div class="coming-soon-header">Coming Soon</div>
         <div class="nav-item">
-            <button class="nav-button">
-                <span class="material-icons nav-icon">settings</span>
-                <span class="nav-text">Settings</span>
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">account_balance</span>
+                <span class="nav-text">Green Financing</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button">
-                <span class="material-icons nav-icon">info</span>
-                <span class="nav-text">About</span>
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">swap_horiz</span>
+                <span class="nav-text">Green Exchange</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button">
-                <span class="material-icons nav-icon">help</span>
-                <span class="nav-text">Feedback</span>
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">library_books</span>
+                <span class="nav-text">Sustainability Frameworks</span>
             </button>
         </div>
-    </div>
-    
-    <!-- Promotional Card -->
-    <div class="promo-card">
-        <div class="promo-header">
-            <span class="material-icons" style="color: #1976d2; font-size: 20px;">auto_awesome</span>
-            <div class="promo-title">Plan about to expire</div>
+        <div class="nav-item">
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">description</span>
+                <span class="nav-text">Report Generation</span>
+            </button>
         </div>
-        <div class="promo-text">Enjoy 10% off when renewing your plan today.</div>
-        <button class="promo-button">Get the discount</button>
+        <div class="nav-item">
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">water_drop</span>
+                <span class="nav-text">Water Usage</span>
+            </button>
+        </div>
+        <div class="nav-item">
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">local_shipping</span>
+                <span class="nav-text">Supply Chain Mgmt</span>
+            </button>
+        </div>
+        <div class="nav-item">
+            <button class="nav-button coming-soon" disabled>
+                <span class="material-icons nav-icon">park</span>
+                <span class="nav-text">Biodiversity</span>
+            </button>
+        </div>
     </div>
     
     <!-- User Profile -->
@@ -85,8 +106,29 @@
             <div class="user-name">Riley Carter</div>
             <div class="user-email">riley@email.com</div>
         </div>
-        <button class="icon-button">
-            <span class="material-icons">more_vert</span>
-        </button>
+        <div class="user-menu-container">
+            <button class="icon-button user-menu-toggle" onclick="toggleUserMenu()">
+                <span class="material-icons">more_vert</span>
+            </button>
+            <div class="user-menu-dropdown" id="userMenuDropdown">
+                <div class="user-menu-item" onclick="navigateTo('settings')">
+                    <span class="material-icons">settings</span>
+                    <span>Settings</span>
+                </div>
+                <div class="user-menu-item" onclick="navigateTo('about')">
+                    <span class="material-icons">info</span>
+                    <span>About</span>
+                </div>
+                <div class="user-menu-item" onclick="navigateTo('feedback')">
+                    <span class="material-icons">help</span>
+                    <span>Feedback</span>
+                </div>
+                <div class="user-menu-divider"></div>
+                <div class="user-menu-item sign-out" onclick="signOut()">
+                    <span class="material-icons">logout</span>
+                    <span>Sign Out</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

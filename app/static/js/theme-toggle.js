@@ -23,6 +23,12 @@ class ThemeManager {
                 this.applyTheme(e.matches ? 'dark' : 'light');
             }
         });
+        
+        // Ensure theme is applied even after page navigation
+        window.addEventListener('pageshow', () => {
+            this.currentTheme = this.getStoredTheme() || this.getSystemTheme();
+            this.applyTheme(this.currentTheme);
+        });
     }
     
     getSystemTheme() {
@@ -38,17 +44,17 @@ class ThemeManager {
     }
     
     applyTheme(theme) {
-        const body = document.body;
+        const html = document.documentElement;
         const isDark = theme === 'dark';
         
         // Remove existing theme classes
-        body.classList.remove('light-theme', 'dark-theme');
+        html.classList.remove('light-theme', 'dark-theme');
         
         // Apply new theme class
         if (isDark) {
-            body.classList.add('dark-theme');
+            html.classList.add('dark-theme');
         } else {
-            body.classList.add('light-theme');
+            // Light theme is default, no class needed
         }
         
         // Update theme icon

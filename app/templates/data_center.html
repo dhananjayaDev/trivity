@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivity Dashboard - Data Center</title>
+    
+    <!-- Material-UI CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Dashboard CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    
+    <!-- Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const theme = storedTheme || systemTheme;
+            
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Main Layout with Components -->
+    <div class="dashboard-container">
+        {% include 'components/sidebar.html' %}
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            {% include 'components/topbar.html' %}
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <h1 class="page-title">Data Center</h1>
+                
+                <!-- Placeholder Content -->
+                <div style="background-color: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 8px; padding: 40px; text-align: center;">
+                    <span class="material-icons" style="font-size: 64px; color: var(--text-muted); margin-bottom: 16px;">storage</span>
+                    <h2 style="color: var(--text-primary); margin-bottom: 16px;">Carbon Emission Data Management</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                        This page will contain carbon emission data tables, facility management, 
+                        and comprehensive data visualization for sustainability tracking.
+                    </p>
+                    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
+                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Scope 1 Emissions</h3>
+                            <p style="color: var(--text-secondary); font-size: 14px;">Direct emissions from company operations</p>
+                        </div>
+                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
+                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Scope 2 Emissions</h3>
+                            <p style="color: var(--text-secondary); font-size: 14px;">Indirect emissions from purchased energy</p>
+                        </div>
+                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
+                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Scope 3 Emissions</h3>
+                            <p style="color: var(--text-secondary); font-size: 14px;">Indirect emissions from value chain</p>
+                        </div>
+                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
+                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Facility Management</h3>
+                            <p style="color: var(--text-secondary); font-size: 14px;">Multi-location data tracking</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Dashboard JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+</body>
+</html>
