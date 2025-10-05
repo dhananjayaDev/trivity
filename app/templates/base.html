@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sitemark Dashboard{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Modern analytics dashboard built with Flask and TypeScript">
+    <meta name="author" content="Sitemark Team">
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div id="root"></div>
+    
+    <!-- Load the React application -->
+    <script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

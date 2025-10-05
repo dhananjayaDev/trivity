@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivity Dashboard - Analytics Overview</title>
+    
+    <!-- Material-UI CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Dashboard CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background-color: #1a1a1a;
+            border-right: 1px solid #333333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .app-selector {
+            padding: 10px;
+            border-bottom: 1px solid #333333;
+        }
+        
+        .app-card {
+            padding: 10px;
+            background-color: #0a0a0a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 3px;
+        }
+        
+        .app-text-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 32px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #4caf50;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .app-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .app-subtitle {
+            font-size: 10px;
+            color: #b0b0b0;
+            margin: 0;
+        }
+        
+        .nav-menu {
+            padding: 4px 10px;
+        }
+        
+        .nav-menu.settings-section {
+            margin-top: 6px;
+        }
+        
+        .nav-item {
+            margin-bottom: 2px;
+        }
+        
+        .nav-button {
+            width: 100%;
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            color: #b0b0b0;
+            text-align: left;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+        
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-button.active {
+            background-color: #333333;
+            color: #ffffff;
+        }
+        
+        .nav-icon {
+            font-size: 16px;
+            min-width: 28px;
+        }
+        
+        .nav-text {
+            font-size: 12px;
+            font-weight: 400;
+        }
+        
+        .nav-button.active .nav-text {
+            font-weight: 600;
+        }
+        
+        .promo-card {
+            margin: 10px;
+            padding: 10px;
+            background-color: #0a0a0a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+        }
+        
+        .promo-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .promo-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .promo-text {
+            font-size: 10px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .promo-button {
+            background-color: #ffffff;
+            color: #0a0a0a;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .user-profile {
+            margin-top: auto;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #333;
+        }
+        
+        .user-info {
+            flex-grow: 1;
+        }
+        
+        .user-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .user-email {
+            font-size: 10px;
+            color: #b0b0b0;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #0a0a0a;
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .top-bar {
+            background-color: transparent;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: none;
+        }
+        
+        .separator-line {
+            height: 1px;
+            background-color: #333333;
+            margin: 0 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .breadcrumb-item {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .breadcrumb-item.active {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .breadcrumb-arrow {
+            color: #b0b0b0;
+            font-size: 14px;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            color: #b0b0b0;
+            font-size: 18px;
+            z-index: 1;
+        }
+        
+        .search-box {
+            background-color: #0a0a0a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            padding: 8px 10px 8px 35px;
+            color: #ffffff;
+            font-size: 11px;
+            width: 200px;
+        }
+        
+        .search-box::placeholder {
+            color: #b0b0b0;
+        }
+        
+        .date-button {
+            background: #0a0a0a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+        }
+        
+        .date-button .material-icons {
+            font-size: 18px;
+            color: #ffffff;
+        }
+        
+        .date-text {
+            color: #ffffff;
+            font-size: 11px;
+        }
+        
+        .notification-button {
+            background: #0a0a0a;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notification-button .material-icons {
+            font-size: 18px;
+            color: #ffffff;
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 8px;
+            height: 8px;
+            background-color: #f44336;
+            border-radius: 50%;
+        }
+        
+        .date-button:hover,
+        .notification-button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .content-area {
+            padding: 24px;
+            flex-grow: 1;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 24px;
+        }
+        
+        /* Metric Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .metric-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        .metric-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        
+        .metric-value-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .metric-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-badge.positive {
+            background-color: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+        }
+        
+        .metric-badge.negative {
+            background-color: rgba(244, 67, 54, 0.3);
+            color: #ff8a80;
+        }
+        
+        .metric-badge.neutral {
+            background-color: transparent;
+            color: #b0b0b0;
+            border: 1px solid #b0b0b0;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .metric-period {
+            font-size: 11px;
+            color: #b0b0b0;
+            margin-bottom: 16px;
+        }
+        
+        
+        .mini-chart {
+            height: 40px;
+            position: relative;
+            margin-top: 8px;
+        }
+        
+        .mini-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .mini-bar {
+            width: 3px;
+            background-color: #1976d2;
+            border-radius: 2px;
+            opacity: 0.8;
+        }
+        
+        .explore-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
+        }
+        
+        .explore-icon {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        
+        .explore-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        
+        .explore-text {
+            font-size: 12px;
+            color: #b0b0b0;
+            margin-bottom: 12px;
+        }
+        
+        .explore-button {
+            background: #e0e0e0;
+            border: none;
+            color: #333333;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .chart-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 24px;
+            height: 400px;
+        }
+        
+        .chart-header {
+            margin-bottom: 24px;
+        }
+        
+        .chart-value-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .chart-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .chart-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        
+        .chart-subtitle {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-bottom: 24px;
+        }
+        
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- App Selector -->
+            <div class="app-selector">
+                <div class="app-card">
+                    <div class="app-logo">
+                        <div class="logo-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-leaf" viewBox="0 0 16 16">
+                                <path d="M1.4 1.7c.216.289.65.84 1.725 1.274 1.093.44 2.884.774 5.834.528l.37-.023c1.823-.06 3.117.598 3.956 1.579C14.16 6.082 14.5 7.41 14.5 8.5c0 .58-.032 1.285-.229 1.997q.198.248.382.54c.756 1.2 1.19 2.563 1.348 3.966a1 1 0 0 1-1.98.198c-.13-.97-.397-1.913-.868-2.77C12.173 13.386 10.565 14 8 14c-1.854 0-3.32-.544-4.45-1.435-1.125-.887-1.89-2.095-2.391-3.383C.16 6.62.16 3.646.509 1.902L.73.806zm-.05 1.39c-.146 1.609-.008 3.809.74 5.728.457 1.17 1.13 2.213 2.079 2.961.942.744 2.185 1.22 3.83 1.221 2.588 0 3.91-.66 4.609-1.445-1.789-2.46-4.121-1.213-6.342-2.68-.74-.488-1.735-1.323-1.844-2.308-.023-.214.237-.274.38-.112 1.4 1.6 3.573 1.757 5.59 2.045 1.227.215 2.21.526 3.033 1.158.058-.39.075-.782.075-1.158 0-.91-.288-1.988-.975-2.792-.626-.732-1.622-1.281-3.167-1.229l-.316.02c-3.05.253-5.01-.08-6.291-.598a5.3 5.3 0 0 1-1.4-.811"/>
+                            </svg>
+                        </div>
+                        <div class="app-text-container">
+                            <div class="app-name">Trivity</div>
+                            <div class="app-subtitle">Web app</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <button class="nav-button active">
+                        <span class="material-icons nav-icon">home</span>
+                        <span class="nav-text">Home</span>
+                    </button>
+                </div>
+                <div class="nav-item">
+                    <button class="nav-button">
+                        <span class="material-icons nav-icon">bar_chart</span>
+                        <span class="nav-text">Analytics</span>
+                    </button>
+                </div>
+                <div class="nav-item">
+                    <button class="nav-button">
+                        <span class="material-icons nav-icon">people</span>
+                        <span class="nav-text">Clients</span>
+                    </button>
+                </div>
+                <div class="nav-item">
+                    <button class="nav-button">
+                        <span class="material-icons nav-icon">assignment</span>
+                        <span class="nav-text">Tasks</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Settings Menu -->
+            <div class="nav-menu settings-section">
+                <div class="nav-item">
+                    <button class="nav-button">
+                        <span class="material-icons nav-icon">settings</span>
+                        <span class="nav-text">Settings</span>
+                    </button>
+                </div>
+                <div class="nav-item">
+                    <button class="nav-button">
+                        <span class="material-icons nav-icon">info</span>
+                        <span class="nav-text">About</span>
+                    </button>
+                </div>
+                <div class="nav-item">
+                    <button class="nav-button">
+                        <span class="material-icons nav-icon">help</span>
+                        <span class="nav-text">Feedback</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Promotional Card -->
+            <div class="promo-card">
+                <div class="promo-header">
+                    <span class="material-icons" style="color: #1976d2; font-size: 20px;">auto_awesome</span>
+                    <div class="promo-title">Plan about to expire</div>
+                </div>
+                <div class="promo-text">Enjoy 10% off when renewing your plan today.</div>
+                <button class="promo-button">Get the discount</button>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                     alt="User Avatar" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">Riley Carter</div>
+                    <div class="user-email">riley@email.com</div>
+                </div>
+                <button class="icon-button">
+                    <span class="material-icons">more_vert</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item">Dashboard</span>
+                    <span class="material-icons breadcrumb-arrow">chevron_right</span>
+                    <span class="breadcrumb-item active">Home</span>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="search-container">
+                        <span class="material-icons search-icon">search</span>
+                        <input type="text" class="search-box" placeholder="Search...">
+                    </div>
+                    <button class="date-button">
+                        <span class="material-icons">calendar_today</span>
+                        <span class="date-text">Apr 17, 2023</span>
+                    </button>
+                    <button class="notification-button">
+                        <span class="material-icons">notifications</span>
+                        <span class="notification-dot"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Separator Line -->
+            <div class="separator-line"></div>
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <h1 class="page-title">Overview</h1>
+                
+                <!-- Metric Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">Users</div>
+                        <div class="metric-value-row">
+                            <div class="metric-value" id="users-count">14k</div>
+                            <div class="metric-badge positive">+25%</div>
+                        </div>
+                        <div class="metric-period">Last 30 days</div>
+                        <div class="mini-chart" id="users-chart"></div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">Conversions</div>
+                        <div class="metric-value-row">
+                            <div class="metric-value" id="conversions-count">325</div>
+                            <div class="metric-badge negative">-25%</div>
+                        </div>
+                        <div class="metric-period">Last 30 days</div>
+                        <div class="mini-chart" id="conversions-chart"></div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">Event count</div>
+                        <div class="metric-value-row">
+                            <div class="metric-value" id="events-count">200k</div>
+                            <div class="metric-badge neutral">+5%</div>
+                        </div>
+                        <div class="metric-period">Last 30 days</div>
+                        <div class="mini-chart" id="events-chart"></div>
+                    </div>
+                    
+                    <div class="explore-card">
+                        <span class="material-icons explore-icon">show_chart</span>
+                        <div class="explore-title">Explore your data</div>
+                        <div class="explore-text">Uncover performance and visitor insights with our data wizardry.</div>
+                        <button class="explore-button">Get insights ></button>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Sessions</div>
+                            <div class="chart-value-row">
+                                <div class="chart-value" id="sessions-count">13,277</div>
+                                <div class="metric-badge positive" id="sessions-change">+35%</div>
+                            </div>
+                            <div class="chart-subtitle">Sessions per day for the last 30 days</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="sessionsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Page views and downloads</div>
+                            <div class="chart-value-row">
+                                <div class="chart-value" id="pageviews-count">1.3M</div>
+                                <div class="metric-badge negative" id="pageviews-change">-8%</div>
+                            </div>
+                            <div class="chart-subtitle">Page views and downloads for the last 6 months</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="pageviewsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Details Section -->
+                <div style="margin-top: 24px;">
+                    <h2 style="color: #ffffff; font-size: 18px; font-weight: 600; margin-bottom: 16px;">Details</h2>
+                    
+                    <!-- Details Content Grid -->
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 24px;">
+                        <!-- Main Table -->
+                        <div style="background-color: #1a1a1a; border: 1px solid #333333; border-radius: 8px; padding: 24px;">
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; color: #ffffff;">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid #333333;">
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0; width: 40px;">
+                                                <input type="checkbox" style="transform: scale(0.8);">
+                                            </th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Page Title</th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Status</th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Users</th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Event Count</th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Views per User</th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Average Time</th>
+                                            <th style="text-align: left; padding: 12px 8px; font-size: 12px; font-weight: 600; color: #b0b0b0;">Daily Conversions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #333333;">
+                                            <td style="padding: 12px 8px; font-size: 12px; width: 40px;">
+                                                <input type="checkbox" style="transform: scale(0.8);">
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">Homepage Overview</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <span style="background-color: #4caf50; color: #1b5e20; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Online</span>
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">212,423</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">8,345</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">18.5</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">2m 15s</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <div style="width: 60px; height: 20px; background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%); border-radius: 4px;"></div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #333333;">
+                                            <td style="padding: 12px 8px; font-size: 12px; width: 40px;">
+                                                <input type="checkbox" style="transform: scale(0.8);">
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">Product Details - Gadgets</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <span style="background-color: #4caf50; color: #1b5e20; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Online</span>
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">172,240</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">5,653</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">9.7</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">2m 30s</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <div style="width: 45px; height: 20px; background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%); border-radius: 4px;"></div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #333333;">
+                                            <td style="padding: 12px 8px; font-size: 12px; width: 40px;">
+                                                <input type="checkbox" style="transform: scale(0.8);">
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">Checkout Process - Step 1</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <span style="background-color: #b0b0b0; color: #666666; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Offline</span>
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">58,240</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">3,455</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">15.2</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">2m 10s</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <div style="width: 35px; height: 20px; background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%); border-radius: 4px;"></div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #333333;">
+                                            <td style="padding: 12px 8px; font-size: 12px; width: 40px;">
+                                                <input type="checkbox" style="transform: scale(0.8);">
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">User Profile Dashboard</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <span style="background-color: #4caf50; color: #1b5e20; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Online</span>
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">96,240</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">112,543</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">4.5</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">2m 40s</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <div style="width: 50px; height: 20px; background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%); border-radius: 4px;"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px 8px; font-size: 12px; width: 40px;">
+                                                <input type="checkbox" style="transform: scale(0.8);">
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">Article Listing - Tech News</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <span style="background-color: #b0b0b0; color: #666666; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">Offline</span>
+                                            </td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">142,240</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">3,653</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">3.1</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">2m 55s</td>
+                                            <td style="padding: 12px 8px; font-size: 12px;">
+                                                <div style="width: 40px; height: 20px; background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%); border-radius: 4px;"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side Panels -->
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <!-- Product Tree -->
+                            <div style="background-color: #1a1a1a; border: 1px solid #333333; border-radius: 8px; padding: 20px;">
+                                <h3 style="color: #ffffff; font-size: 14px; font-weight: 600; margin: 0 0 16px 0;">Product tree</h3>
+                                <div style="color: #b0b0b0; font-size: 12px;">
+                                    <!-- Content will be added here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Users by Country -->
+                            <div style="background-color: #1a1a1a; border: 1px solid #333333; border-radius: 8px; padding: 20px;">
+                                <h3 style="color: #ffffff; font-size: 14px; font-weight: 600; margin: 0 0 16px 0;">Users by country</h3>
+                                <div style="color: #b0b0b0; font-size: 12px;">
+                                    <!-- Content will be added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Dashboard JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
