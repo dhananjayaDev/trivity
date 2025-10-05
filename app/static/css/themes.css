@@ -1,0 +1,170 @@
+/* Theme System - CSS Custom Properties */
+
+/* Dark Theme (Default) */
+:root {
+    /* Background Colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #333333;
+    --bg-card: #1a1a1a;
+    --bg-input: #0a0a0a;
+    --bg-button: #0a0a0a;
+    --bg-button-hover: rgba(255, 255, 255, 0.05);
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #6c757d;
+    --text-inverse: #212529;
+    
+    /* Border Colors */
+    --border-primary: #333333;
+    --border-secondary: #dee2e6;
+    --border-focus: #4caf50;
+    
+    /* Accent Colors */
+    --accent-green: #4caf50;
+    --accent-green-bg: rgba(76, 175, 80, 0.3);
+    --accent-green-text: #1b5e20;
+    --accent-red: #f44336;
+    --accent-red-bg: rgba(244, 67, 54, 0.3);
+    --accent-red-text: #ff8a80;
+    --accent-blue: #1976d2;
+    --accent-blue-bg: rgba(25, 118, 210, 0.1);
+    
+    /* Status Colors */
+    --status-online: #4caf50;
+    --status-online-bg: #4caf50;
+    --status-online-text: #1b5e20;
+    --status-offline: #b0b0b0;
+    --status-offline-bg: #b0b0b0;
+    --status-offline-text: #666666;
+    
+    /* Shadow Colors */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    /* Chart Colors */
+    --chart-primary: #1976d2;
+    --chart-secondary: #42a5f5;
+    --chart-success: #4caf50;
+    --chart-warning: #ff9800;
+    --chart-danger: #f44336;
+}
+
+/* Light Theme */
+.light-theme {
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --bg-card: #ffffff;
+    --bg-input: #ffffff;
+    --bg-button: #ffffff;
+    --bg-button-hover: rgba(0, 0, 0, 0.05);
+    
+    /* Text Colors */
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+    --text-inverse: #ffffff;
+    
+    /* Border Colors */
+    --border-primary: #dee2e6;
+    --border-secondary: #e9ecef;
+    --border-focus: #28a745;
+    
+    /* Accent Colors */
+    --accent-green: #28a745;
+    --accent-green-bg: rgba(40, 167, 69, 0.1);
+    --accent-green-text: #155724;
+    --accent-red: #dc3545;
+    --accent-red-bg: rgba(220, 53, 69, 0.1);
+    --accent-red-text: #721c24;
+    --accent-blue: #007bff;
+    --accent-blue-bg: rgba(0, 123, 255, 0.1);
+    
+    /* Status Colors */
+    --status-online: #28a745;
+    --status-online-bg: #28a745;
+    --status-online-text: #155724;
+    --status-offline: #6c757d;
+    --status-offline-bg: #6c757d;
+    --status-offline-text: #495057;
+    
+    /* Shadow Colors */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    
+    /* Chart Colors */
+    --chart-primary: #007bff;
+    --chart-secondary: #17a2b8;
+    --chart-success: #28a745;
+    --chart-warning: #ffc107;
+    --chart-danger: #dc3545;
+}
+
+/* Theme Transition */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Theme Toggle Button Styles */
+.theme-toggle {
+    background: var(--bg-button);
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-button-hover);
+    transform: scale(1.05);
+}
+
+.theme-toggle .material-icons {
+    font-size: 18px;
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .material-icons {
+    transform: rotate(180deg);
+}
+
+/* Theme-specific adjustments */
+.light-theme .sidebar {
+    box-shadow: var(--shadow-md);
+}
+
+.light-theme .metric-card,
+.light-theme .chart-card,
+.light-theme .explore-card {
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-primary);
+}
+
+.light-theme .promo-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+}
+
+/* Status badge theme adjustments */
+.light-theme .status-badge.online {
+    background-color: var(--status-online-bg);
+    color: var(--status-online-text);
+}
+
+.light-theme .status-badge.offline {
+    background-color: var(--status-offline-bg);
+    color: var(--status-offline-text);
+}
