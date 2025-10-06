@@ -104,7 +104,7 @@ def get_sdg_recommendations():
 @api_bp.route('/carbon/analyze', methods=['POST'])
 @login_required
 def analyze_carbon_footprint():
-    """Analyze carbon footprint using AI"""
+    """Analyze carbon footprint using AI and save to database"""
     try:
         data = request.get_json()
         carbon_data = data.get('carbon_data', {})
@@ -136,6 +136,34 @@ def analyze_carbon_footprint():
         
     except Exception as e:
         logging.error(f"Error analyzing carbon footprint: {e}")
+        return jsonify({'error': 'Failed to analyze carbon footprint'}), 500
+
+@api_bp.route('/carbon/analyze-ai', methods=['POST'])
+def analyze_carbon_footprint_ai():
+    """Analyze carbon footprint using AI without database saving"""
+    try:
+        data = request.get_json()
+        carbon_data = data.get('carbon_data', {})
+        
+        if not carbon_data:
+            return jsonify({'error': 'No carbon data provided'}), 400
+        
+        # Generate AI analysis without saving to database
+        user_profile = {
+            'company': data.get('company', 'Unknown'),
+            'industry': data.get('industry', 'Not specified'),
+            'size': data.get('size', 'Not specified')
+        }
+        
+        analysis = ai_service.analyze_carbon_footprint(carbon_data, user_profile)
+        
+        return jsonify({
+            'success': True,
+            'analysis': analysis
+        })
+        
+    except Exception as e:
+        logging.error(f"Error analyzing carbon footprint with AI: {e}")
         return jsonify({'error': 'Failed to analyze carbon footprint'}), 500
 
 @api_bp.route('/insights/dashboard', methods=['GET'])

@@ -223,31 +223,57 @@ class GeminiAIService:
     def _build_carbon_prompt(self, carbon_data: Dict, user_profile: Dict) -> str:
         """Build prompt for carbon footprint analysis"""
         return f"""
-        You are a sustainability expert AI analyzing carbon footprint data.
+        You are a sustainability expert AI analyzing carbon footprint data for a company.
         
         Company Profile:
         - Name: {user_profile.get('company', 'Unknown')}
         - Industry: {user_profile.get('industry', 'Not specified')}
         - Size: {user_profile.get('size', 'Not specified')}
         
-        Carbon Footprint Data:
-        {json.dumps(carbon_data, indent=2)}
+        Carbon Footprint Data (in tonnes CO₂e):
+        - Electricity: {carbon_data.get('electricity', 0):.2f} tCO₂e
+        - Transportation: {carbon_data.get('transportation', 0):.2f} tCO₂e
+        - Refrigerants: {carbon_data.get('refrigerants', 0):.2f} tCO₂e
+        - Mobile/Digital: {carbon_data.get('mobile', 0):.2f} tCO₂e
+        - Combustion: {carbon_data.get('combustion', 0):.2f} tCO₂e
+        - Total: {sum(carbon_data.values()):.2f} tCO₂e
         
-        Analyze this carbon footprint data and provide:
-        1. Overall assessment of the carbon footprint
-        2. Key insights about emissions sources
-        3. Comparison to industry benchmarks
-        4. Specific improvement recommendations
-        5. Priority actions
+        Analyze this carbon footprint data and provide comprehensive insights:
+        1. Overall assessment of the carbon footprint level and areas of concern
+        2. Key insights about which emission sources are highest and why
+        3. Comparison to industry benchmarks and typical company footprints
+        4. Specific, actionable improvement recommendations for each category
+        5. Priority actions ranked by impact and feasibility
+        6. Estimated reduction potential with specific percentages
+        
+        Focus on practical, implementable solutions that a company can realistically adopt.
+        Consider the company's industry and size when making recommendations.
         
         Respond in JSON format with this structure:
         {{
-            "overall_assessment": "Assessment of carbon footprint",
-            "key_insights": ["insight1", "insight2"],
-            "industry_comparison": "Comparison to industry average",
-            "improvement_recommendations": ["rec1", "rec2"],
-            "priority_actions": ["action1", "action2"],
-            "estimated_reduction_potential": "X% reduction possible"
+            "overall_assessment": "Detailed assessment of the carbon footprint with specific observations about the company's sustainability performance",
+            "key_insights": [
+                "Specific insight about electricity emissions and energy efficiency",
+                "Transportation patterns and opportunities for improvement",
+                "Refrigerant management and leak prevention",
+                "Digital footprint and data usage optimization",
+                "Combustion sources and heating efficiency"
+            ],
+            "industry_comparison": "Comparison to industry average with specific benchmarks and context",
+            "improvement_recommendations": [
+                "Specific recommendation 1 with implementation details",
+                "Specific recommendation 2 with expected impact",
+                "Specific recommendation 3 with timeline",
+                "Specific recommendation 4 with cost considerations",
+                "Specific recommendation 5 with monitoring approach"
+            ],
+            "priority_actions": [
+                "Immediate action 1 (next 30 days)",
+                "Short-term action 2 (next 3 months)",
+                "Medium-term action 3 (next 6 months)",
+                "Long-term action 4 (next 12 months)"
+            ],
+            "estimated_reduction_potential": "X% reduction possible (X tonnes CO₂e saved annually) with specific breakdown by category"
         }}
         """
     
@@ -302,7 +328,7 @@ class GeminiAIService:
             return self._get_fallback_sdg_recommendations()
     
     def _parse_carbon_response(self, response_text: str) -> Dict:
-        """Parse AI response for carbon analysis"""
+        """Parse AI response for carbon footprint analysis"""
         try:
             json_start = response_text.find('{')
             json_end = response_text.rfind('}') + 1
@@ -311,6 +337,7 @@ class GeminiAIService:
         except Exception as e:
             logging.error(f"Error parsing carbon response: {e}")
             return self._get_fallback_carbon_analysis()
+    
     
     def _parse_insights_response(self, response_text: str) -> Dict:
         """Parse AI response for insights"""
@@ -362,12 +389,29 @@ class GeminiAIService:
     def _get_fallback_carbon_analysis(self) -> Dict:
         """Fallback carbon analysis when AI is unavailable"""
         return {
-            "overall_assessment": "Moderate carbon footprint with improvement potential",
-            "key_insights": ["Electricity is the largest emission source", "Transportation emissions are significant"],
-            "industry_comparison": "Slightly above industry average",
-            "improvement_recommendations": ["Switch to renewable energy", "Implement telecommuting"],
-            "priority_actions": ["Energy audit", "Transportation optimization"],
-            "estimated_reduction_potential": "25% reduction possible"
+            "overall_assessment": "Based on your carbon footprint data, there are several opportunities for improvement. Focus on the highest emission categories first for maximum impact.",
+            "key_insights": [
+                "Electricity consumption is typically the largest source of emissions for most companies",
+                "Transportation emissions can be significantly reduced through efficient planning and alternative transport",
+                "Refrigerant leaks, while small in volume, have high global warming potential",
+                "Digital emissions are often overlooked but can be optimized through efficient data management",
+                "Combustion sources like heating can be improved through energy efficiency measures"
+            ],
+            "industry_comparison": "Your emissions appear to be within typical ranges for companies of your size and industry. There's room for improvement through targeted sustainability initiatives.",
+            "improvement_recommendations": [
+                "Switch to renewable energy sources for electricity to reduce emissions by up to 100%",
+                "Implement energy efficiency measures to reduce overall consumption by 20-30%",
+                "Optimize transportation through route planning, carpooling, or electric vehicles",
+                "Regular maintenance of refrigerant systems to prevent leaks and improve efficiency",
+                "Implement digital sustainability practices to reduce data center and device emissions"
+            ],
+            "priority_actions": [
+                "Conduct an energy audit to identify the biggest efficiency opportunities (next 30 days)",
+                "Switch to renewable energy suppliers or install solar panels (next 3 months)",
+                "Implement transportation optimization program (next 6 months)",
+                "Develop comprehensive sustainability strategy with measurable targets (next 12 months)"
+            ],
+            "estimated_reduction_potential": "30-50% reduction possible (estimated 2-5 tonnes CO₂e saved annually) through focused improvements in energy efficiency and renewable energy adoption"
         }
     
     def _get_fallback_insights(self) -> Dict:

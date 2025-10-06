@@ -122,7 +122,7 @@ class CarbonCalculator {
         
         // Action buttons
         document.getElementById('resetCalculator')?.addEventListener('click', () => this.resetCalculator());
-        document.getElementById('saveData')?.addEventListener('click', () => this.submitToAPI());
+        document.getElementById('saveData')?.addEventListener('click', () => this.getAIRecommendations());
         document.getElementById('exportReport')?.addEventListener('click', () => this.exportReport());
     }
     
@@ -319,6 +319,11 @@ class CarbonCalculator {
         
         // Update chart
         this.updateEmissionChart();
+        
+        // Get AI recommendations if there are emissions
+        if (totalEmissions > 0) {
+            this.getAIRecommendations();
+        }
     }
     
     updateEmissionChart() {
@@ -370,54 +375,95 @@ class CarbonCalculator {
         const recommendationsContainer = document.getElementById('reductionRecommendations');
         if (!recommendationsContainer) return;
         
-        const recommendations = [
-            {
-                icon: 'bolt',
-                title: 'Switch to Renewable Energy',
-                description: 'Install solar panels or purchase renewable energy credits to reduce electricity emissions.',
-                impact: 'Up to 100% reduction in electricity emissions'
-            },
-            {
-                icon: 'directions_car',
-                title: 'Optimize Transportation',
-                description: 'Use public transport, carpool, or switch to electric vehicles for daily commuting.',
-                impact: 'Up to 80% reduction in transportation emissions'
-            },
-            {
-                icon: 'eco',
-                title: 'Improve Energy Efficiency',
-                description: 'Upgrade to energy-efficient appliances and implement smart energy management.',
-                impact: 'Up to 30% reduction in overall emissions'
-            },
-            {
-                icon: 'ac_unit',
-                title: 'Maintain Refrigerant Systems',
-                description: 'Regular maintenance and leak detection can significantly reduce refrigerant emissions.',
-                impact: 'Up to 50% reduction in refrigerant emissions'
-            },
-            {
-                icon: 'cloud_done',
-                title: 'Optimize Digital Usage',
-                description: 'Reduce data usage, use cloud services efficiently, and extend device lifespans.',
-                impact: 'Up to 20% reduction in digital emissions'
-            }
-        ];
+        // Show loading state
+        recommendationsContainer.innerHTML = `
+            <div style="text-align: center; color: var(--text-muted); padding: 20px;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+                    <div class="spinner" style="width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #4caf50; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <span>Enter data to get AI-powered recommendations...</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    updateAIRecommendations(analysis) {
+        const recommendationsContainer = document.getElementById('reductionRecommendations');
+        if (!recommendationsContainer || !analysis) return;
         
         let recommendationsHTML = '';
-        recommendations.forEach(rec => {
+        
+        // Add AI analysis summary
+        if (analysis.overall_assessment) {
             recommendationsHTML += `
-                <div class="recommendation-item">
-                    <div class="recommendation-icon">
-                        <span class="material-icons">${rec.icon}</span>
-                    </div>
-                    <div class="recommendation-content">
-                        <div class="recommendation-title">${rec.title}</div>
-                        <div class="recommendation-description">${rec.description}</div>
-                    </div>
-                    <div class="recommendation-impact">${rec.impact}</div>
+                <div class="ai-analysis-summary" style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2196f3;">
+                    <h4 style="margin: 0 0 8px 0; color: #1976d2; font-size: 16px;">AI Analysis</h4>
+                    <p style="margin: 0; color: #424242; font-size: 14px; line-height: 1.5;">${analysis.overall_assessment}</p>
                 </div>
             `;
-        });
+        }
+        
+        // Add key insights
+        if (analysis.key_insights && analysis.key_insights.length > 0) {
+            recommendationsHTML += `
+                <div class="key-insights" style="margin-bottom: 20px;">
+                    <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: 16px;">Key Insights</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                        ${analysis.key_insights.map(insight => `<li>${insight}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        // Add improvement recommendations
+        if (analysis.improvement_recommendations && analysis.improvement_recommendations.length > 0) {
+            recommendationsHTML += `
+                <div class="improvement-recommendations">
+                    <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: 16px;">Improvement Recommendations</h4>
+            `;
+            
+            analysis.improvement_recommendations.forEach((rec, index) => {
+                const icons = ['bolt', 'directions_car', 'eco', 'ac_unit', 'cloud_done', 'trending_up'];
+                const icon = icons[index % icons.length];
+                
+                recommendationsHTML += `
+                    <div class="recommendation-item" style="display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 8px;">
+                        <div class="recommendation-icon" style="flex-shrink: 0; width: 32px; height: 32px; background: linear-gradient(135deg, #4caf50, #2196f3); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <span class="material-icons" style="color: white; font-size: 18px;">${icon}</span>
+                        </div>
+                        <div class="recommendation-content" style="flex: 1;">
+                            <div class="recommendation-title" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-size: 14px;">Recommendation ${index + 1}</div>
+                            <div class="recommendation-description" style="color: var(--text-secondary); font-size: 13px; line-height: 1.5;">${rec}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            recommendationsHTML += `</div>`;
+        }
+        
+        // Add priority actions
+        if (analysis.priority_actions && analysis.priority_actions.length > 0) {
+            recommendationsHTML += `
+                <div class="priority-actions" style="margin-top: 20px;">
+                    <h4 style="margin: 0 0 12px 0; color: var(--text-primary); font-size: 16px;">Priority Actions</h4>
+                    <div style="background: #fff3e0; padding: 12px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                        <ul style="margin: 0; padding-left: 20px; color: #e65100; font-size: 14px; line-height: 1.6;">
+                            ${analysis.priority_actions.map(action => `<li>${action}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Add estimated reduction potential
+        if (analysis.estimated_reduction_potential) {
+            recommendationsHTML += `
+                <div class="reduction-potential" style="margin-top: 20px; text-align: center; background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%); padding: 16px; border-radius: 8px; border: 1px solid #4caf50;">
+                    <h4 style="margin: 0 0 8px 0; color: #2e7d32; font-size: 16px;">Estimated Reduction Potential</h4>
+                    <p style="margin: 0; color: #388e3c; font-size: 18px; font-weight: 600;">${analysis.estimated_reduction_potential}</p>
+                </div>
+            `;
+        }
         
         recommendationsContainer.innerHTML = recommendationsHTML;
     }
@@ -455,9 +501,9 @@ class CarbonCalculator {
         document.getElementById('electricityRenewableOffset').textContent = '0.00 tCO₂e';
     }
     
-    async submitToAPI() {
+    async getAIRecommendations() {
         try {
-            // Prepare carbon data for API
+            // Prepare carbon data for AI analysis
             const carbonData = {
                 electricity: this.calculations.electricity,
                 transportation: this.calculations.transportation,
@@ -466,8 +512,8 @@ class CarbonCalculator {
                 combustion: this.calculations.combustion
             };
             
-            // Submit to API for AI analysis and storage
-            const response = await fetch('/api/carbon/analyze', {
+            // Get AI analysis without saving to database
+            const response = await fetch('/api/carbon/analyze-ai', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -482,22 +528,17 @@ class CarbonCalculator {
             const result = await response.json();
             
             if (result.success) {
-                // Show success message
-                this.showNotification('Carbon data saved successfully!', 'success');
-                
-                // Update dashboard if available
-                if (window.dashboardManager) {
-                    window.dashboardManager.loadUserData();
-                }
-                
+                // Update recommendations with AI analysis
+                this.updateAIRecommendations(result.analysis);
+                this.showNotification('AI recommendations updated!', 'success');
                 return result;
             } else {
-                throw new Error(result.error || 'Failed to save carbon data');
+                throw new Error(result.error || 'Failed to get AI recommendations');
             }
             
         } catch (error) {
-            console.error('API submission error:', error);
-            this.showNotification(`Error saving data: ${error.message}`, 'error');
+            console.error('AI analysis error:', error);
+            this.showNotification(`Error getting AI recommendations: ${error.message}`, 'error');
             return { success: false, error: error.message };
         }
     }
@@ -545,16 +586,9 @@ class CarbonCalculator {
         }, 5000);
     }
     
-    async exportReport() {
-        // First save to API, then export
-        const apiResult = await this.submitToAPI();
-        
-        if (apiResult.success) {
-            this.downloadReport();
-        } else {
-            // Still allow download even if API fails
-            this.downloadReport();
-        }
+    exportReport() {
+        // Export report directly without API call
+        this.downloadReport();
     }
     
     downloadReport() {
