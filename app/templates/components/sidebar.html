@@ -20,37 +20,37 @@
     <!-- Navigation Menu -->
     <div class="nav-menu">
         <div class="nav-item">
-            <button class="nav-button" data-page="dashboard">
+            <button class="nav-button {{ 'active' if active_page == 'dashboard' else '' }}" data-page="dashboard">
                 <span class="material-icons nav-icon">dashboard</span>
                 <span class="nav-text">Dashboard</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button" data-page="sustainability-index">
+            <button class="nav-button {{ 'active' if active_page == 'sustainability-index' else '' }}" data-page="sustainability-index">
                 <span class="material-icons nav-icon">assessment</span>
                 <span class="nav-text">Sustainability Readiness Index</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button" data-page="recommended-sdgs">
+            <button class="nav-button {{ 'active' if active_page == 'recommended-sdgs' else '' }}" data-page="recommended-sdgs">
                 <span class="material-icons nav-icon">eco</span>
                 <span class="nav-text">Recommended UN SDGs</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button" data-page="data-center">
+            <button class="nav-button {{ 'active' if active_page == 'data-center' else '' }}" data-page="data-center">
                 <span class="material-icons nav-icon">storage</span>
                 <span class="nav-text">Data Center</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button" data-page="carbon-calculator">
+            <button class="nav-button {{ 'active' if active_page == 'carbon-calculator' else '' }}" data-page="carbon-calculator">
                 <span class="material-icons nav-icon">calculate</span>
                 <span class="nav-text">Carbon Emissions Calculator</span>
             </button>
         </div>
         <div class="nav-item">
-            <button class="nav-button" data-page="reports">
+            <button class="nav-button {{ 'active' if active_page == 'reports' else '' }}" data-page="reports">
                 <span class="material-icons nav-icon">summarize</span>
                 <span class="nav-text">Reports & Analytics</span>
             </button>

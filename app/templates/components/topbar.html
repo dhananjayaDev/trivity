@@ -1,7 +1,7 @@
 <!-- Top Bar Component -->
 <div class="top-bar">
     <div class="breadcrumb" id="breadcrumb">
-        <span class="breadcrumb-item active">Dashboard</span>
+        <span class="breadcrumb-item active">{{ active_page.replace('-', ' ').title() if active_page else 'Dashboard' }}</span>
     </div>
     
     <div class="header-actions">

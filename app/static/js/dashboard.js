@@ -60,7 +60,7 @@ class DashboardManager {
             this.initializeCircularProgress();
             this.updateScoreDisplays();
             this.updateAchievementDisplay();
-            this.updateDataCenter();
+            this.updateDataCenterMetrics();
             this.loadCompanyData();
             
         } catch (error) {
@@ -184,14 +184,7 @@ class DashboardManager {
             this.navigateToPage('carbon-calculator');
         });
         
-        // Data Center actions
-        document.getElementById('refreshDataCenter')?.addEventListener('click', () => {
-            this.refreshDataCenter();
-        });
-        
-        document.getElementById('viewFullAnalytics')?.addEventListener('click', () => {
-            this.navigateToPage('data-center');
-        });
+        // Data Center actions - removed (handled by direct navigation in HTML)
         
         // Learn More buttons for SDG goals
         document.querySelectorAll('.learn-more-btn').forEach(btn => {
@@ -277,6 +270,12 @@ class DashboardManager {
 
         // Update trophy highlighting based on score
         this.updateTrophyHighlighting();
+        
+        // Update Data Center metrics
+        this.updateDataCenterMetrics();
+        
+        // Initialize Data Center charts
+        this.initializeDataCenterCharts();
     }
     
     getScoreDescription(score) {
@@ -824,12 +823,6 @@ class DashboardManager {
         }
     }
     
-    updateDataCenter() {
-        // Update Data Center metrics with real data
-        this.updateDataCenterMetrics();
-        this.updateDataCenterInsights();
-    }
-    
     updateDataCenterMetrics() {
         // Update SRI Score
         const sriElement = document.getElementById('dataCenterSRI');
@@ -886,37 +879,7 @@ class DashboardManager {
         }
     }
     
-    updateDataCenterInsights() {
-        const insightsContainer = document.getElementById('quickInsights');
-        if (!insightsContainer) return;
-        
-        // Clear existing insights
-        insightsContainer.innerHTML = '';
-        
-        if (this.hasAssessment && this.userData.ai_analysis) {
-            // Show AI-generated insights
-            const insights = this.userData.ai_analysis;
-            
-            if (insights.overall_assessment) {
-                this.addInsightItem(insightsContainer, 'assessment', insights.overall_assessment);
-            }
-            
-            if (insights.key_insights && Array.isArray(insights.key_insights)) {
-                insights.key_insights.slice(0, 2).forEach(insight => {
-                    this.addInsightItem(insightsContainer, 'lightbulb', insight);
-                });
-            }
-            
-            if (insights.recommendations && Array.isArray(insights.recommendations)) {
-                insights.recommendations.slice(0, 1).forEach(rec => {
-                    this.addInsightItem(insightsContainer, 'recommendation', rec);
-                });
-            }
-        } else {
-            // Show default insight
-            this.addInsightItem(insightsContainer, 'lightbulb', 'Complete your sustainability assessment to unlock personalized AI insights and recommendations');
-        }
-    }
+    
     
     addInsightItem(container, icon, text) {
         const insightItem = document.createElement('div');
@@ -928,37 +891,131 @@ class DashboardManager {
         container.appendChild(insightItem);
     }
     
-    async refreshDataCenter() {
-        // Show loading state
-        const refreshBtn = document.getElementById('refreshDataCenter');
-        if (refreshBtn) {
-            const originalText = refreshBtn.innerHTML;
-            refreshBtn.innerHTML = '<span class="material-icons">refresh</span> Refreshing...';
-            refreshBtn.disabled = true;
-            
-            try {
-                // Reload user data
-                await this.loadUserData();
-                
-                // Update Data Center
-                this.updateDataCenter();
-                
-                // Show success feedback
-                refreshBtn.innerHTML = '<span class="material-icons">check</span> Refreshed';
-                setTimeout(() => {
-                    refreshBtn.innerHTML = originalText;
-                    refreshBtn.disabled = false;
-                }, 2000);
-                
-            } catch (error) {
-                console.error('Error refreshing data center:', error);
-                refreshBtn.innerHTML = '<span class="material-icons">error</span> Error';
-                setTimeout(() => {
-                    refreshBtn.innerHTML = originalText;
-                    refreshBtn.disabled = false;
-                }, 2000);
+    initializeDataCenterCharts() {
+        this.initializeSustainabilityChart();
+        this.initializeCategoryChart();
+    }
+
+    initializeSustainabilityChart() {
+        const ctx = document.getElementById('sustainabilityChart');
+        if (!ctx) return;
+
+        const data = this.generateMockTrendData();
+        
+        this.sustainabilityChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Current Score',
+                    data: data.scores,
+                    borderColor: 'var(--accent-red)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Target Score',
+                    data: data.targets,
+                    borderColor: 'var(--accent-blue)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                }
             }
+        });
+    }
+
+    initializeCategoryChart() {
+        const ctx = document.getElementById('categoryChart');
+        if (!ctx) return;
+
+        const scores = this.scores || {};
+        const data = {
+            labels: ['Environmental', 'Social', 'Economic', 'Governance', 'Innovation', 'Stakeholder'],
+            datasets: [{
+                data: [
+                    scores.environmental_management || 0,
+                    scores.social_responsibility || 0,
+                    scores.economic_sustainability || 0,
+                    scores.governance_compliance || 0,
+                    scores.innovation_technology || 0,
+                    scores.stakeholder_engagement || 0
+                ],
+                backgroundColor: [
+                    'var(--accent-green)',
+                    'var(--accent-blue)',
+                    'var(--accent-red)',
+                    'var(--accent-purple)',
+                    'var(--accent-orange)',
+                    'var(--accent-teal)'
+                ],
+                borderWidth: 0
+            }]
+        };
+
+        this.categoryChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    generateMockTrendData() {
+        const days = 30;
+        const labels = [];
+        const scores = [];
+        const targets = [];
+
+        for (let i = days - 1; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+            
+            // Generate realistic trend data
+            const baseScore = this.scores?.total || 45;
+            const variation = Math.sin(i * 0.2) * 5 + Math.random() * 3;
+            scores.push(Math.max(0, Math.min(100, baseScore + variation)));
+            targets.push(75); // Target score
         }
+
+        return { labels, scores, targets };
     }
     
     getSDGSymbol(sdgNumber) {

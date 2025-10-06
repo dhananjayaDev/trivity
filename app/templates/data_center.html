@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivity Dashboard - Data Center</title>
+    <title>Data Center - UN17 SDG Platform</title>
     
     <!-- Material-UI CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -33,6 +33,7 @@
 <body>
     <!-- Main Layout with Components -->
     <div class="dashboard-container">
+        {% set active_page = 'data-center' %}
         {% include 'components/sidebar.html' %}
         
         <!-- Main Content -->
@@ -41,414 +42,216 @@
             
             <!-- Content Area -->
             <div class="content-area">
-                <h1 class="page-title">Data Center</h1>
-                
-                <!-- Data Overview Dashboard -->
-                <div class="data-overview">
-                    <div class="overview-header">
-                        <h2>Sustainability Data Overview</h2>
-                        <div class="overview-actions">
-                            <button class="btn-secondary" id="refreshData">
-                                <span class="material-icons">refresh</span>
-                                Refresh Data
-                            </button>
-                            <button class="btn-primary" id="exportAllData">
-                                <span class="material-icons">download</span>
-                                Export All Data
-                            </button>
-                        </div>
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Data Center</h1>
+                        <p>Comprehensive sustainability analytics and real-time insights</p>
                     </div>
-                    
-                    <div class="overview-metrics">
-                        <div class="metric-card">
-                            <div class="metric-icon">
-                                <span class="material-icons">assessment</span>
-                            </div>
-                            <div class="metric-content">
-                                <h3>Sustainability Index</h3>
-                                <div class="metric-value" id="sustainabilityScore">0%</div>
-                                <div class="metric-trend" id="sustainabilityTrend">
-                                    <span class="material-icons">trending_up</span>
-                                    <span>+5% from last month</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <div class="metric-icon">
-                                <span class="material-icons">eco</span>
-                            </div>
-                            <div class="metric-content">
-                                <h3>Carbon Footprint</h3>
-                                <div class="metric-value" id="carbonFootprint">0.00 tCO₂e</div>
-                                <div class="metric-trend" id="carbonTrend">
-                                    <span class="material-icons">trending_down</span>
-                                    <span>-12% from last month</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <div class="metric-icon">
-                                <span class="material-icons">flag</span>
-                            </div>
-                            <div class="metric-content">
-                                <h3>SDG Goals</h3>
-                                <div class="metric-value" id="sdgGoals">0</div>
-                                <div class="metric-trend" id="sdgTrend">
-                                    <span class="material-icons">add</span>
-                                    <span>3 new goals this month</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="metric-card">
-                            <div class="metric-icon">
-                                <span class="material-icons">timeline</span>
-                            </div>
-                            <div class="metric-content">
-                                <h3>Active Projects</h3>
-                                <div class="metric-value" id="activeProjects">0</div>
-                                <div class="metric-trend" id="projectsTrend">
-                                    <span class="material-icons">play_arrow</span>
-                                    <span>2 completed this week</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Analytics Section -->
-                <div class="analytics-section">
-                    <div class="section-header">
-                        <h2>Analytics & Trends</h2>
-                        <div class="analytics-controls">
-                            <select class="time-period-select" id="timePeriod">
-                                <option value="7d">Last 7 Days</option>
-                                <option value="30d" selected>Last 30 Days</option>
-                                <option value="90d">Last 90 Days</option>
-                                <option value="1y">Last Year</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="analytics-grid">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h3>Sustainability Progress</h3>
-                                <div class="chart-legend">
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: #28a745;"></div>
-                                        <span>Environment</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: #007bff;"></div>
-                                        <span>Social</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-color" style="background-color: #ffc107;"></div>
-                                        <span>Governance</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="chart-content" id="sustainabilityChart">
-                                <!-- Chart will be rendered here -->
-                            </div>
-                        </div>
-                        
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h3>Carbon Emissions Trend</h3>
-                                <div class="chart-controls">
-                                    <button class="chart-btn active" data-chart="line">Line</button>
-                                    <button class="chart-btn" data-chart="bar">Bar</button>
-                                </div>
-                            </div>
-                            <div class="chart-content" id="carbonChart">
-                                <!-- Chart will be rendered here -->
-                            </div>
-                        </div>
-                        
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h3>SDG Impact Distribution</h3>
-                            </div>
-                            <div class="chart-content" id="sdgChart">
-                                <!-- Chart will be rendered here -->
-                            </div>
-                        </div>
-                        
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h3>Project Completion Status</h3>
-                            </div>
-                            <div class="chart-content" id="projectsChart">
-                                <!-- Chart will be rendered here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Management Section -->
-                <div class="projects-section">
-                    <div class="section-header">
-                        <h2>Project Management</h2>
-                        <button class="btn-primary" id="addProject">
-                            <span class="material-icons">add</span>
-                            Add New Project
+                    <div class="page-actions">
+                        <button class="btn-secondary" id="refreshAllData">
+                            <span class="material-icons">refresh</span>
+                            Refresh All Data
+                        </button>
+                        <button class="btn-primary" id="exportData">
+                            <span class="material-icons">download</span>
+                            Export Data
                         </button>
                     </div>
-                    
-                    <div class="projects-grid">
-                        <div class="project-card">
-                            <div class="project-header">
-                                <h3>Renewable Energy Initiative</h3>
-                                <div class="project-status status-active">Active</div>
-                            </div>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 75%"></div>
-                                </div>
-                                <span class="progress-text">75% Complete</span>
-                            </div>
-                            <div class="project-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">Start Date:</span>
-                                    <span class="detail-value">Jan 15, 2024</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Target Date:</span>
-                                    <span class="detail-value">Mar 30, 2024</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Impact:</span>
-                                    <span class="detail-value">-2.5 tCO₂e/month</span>
-                                </div>
-                            </div>
-                            <div class="project-actions">
-                                <button class="btn-secondary btn-sm">View Details</button>
-                                <button class="btn-primary btn-sm">Update Progress</button>
-                            </div>
+                </div>
+
+            <!-- Real-time Metrics Dashboard -->
+            <div class="metrics-dashboard">
+                <div class="dashboard-header">
+                    <h2>Real-time Metrics</h2>
+                    <div class="dashboard-controls">
+                        <div class="time-range-selector">
+                            <label>Time Range:</label>
+                            <select id="timeRange">
+                                <option value="7d">Last 7 days</option>
+                                <option value="30d" selected>Last 30 days</option>
+                                <option value="90d">Last 90 days</option>
+                                <option value="1y">Last year</option>
+                            </select>
                         </div>
-                        
-                        <div class="project-card">
-                            <div class="project-header">
-                                <h3>Waste Reduction Program</h3>
-                                <div class="project-status status-completed">Completed</div>
-                            </div>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 100%"></div>
-                                </div>
-                                <span class="progress-text">100% Complete</span>
-                            </div>
-                            <div class="project-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">Start Date:</span>
-                                    <span class="detail-value">Nov 1, 2023</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Completed:</span>
-                                    <span class="detail-value">Dec 15, 2023</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Impact:</span>
-                                    <span class="detail-value">-0.8 tCO₂e/month</span>
-                                </div>
-                            </div>
-                            <div class="project-actions">
-                                <button class="btn-secondary btn-sm">View Report</button>
-                                <button class="btn-primary btn-sm">Create Similar</button>
-                            </div>
-                        </div>
-                        
-                        <div class="project-card">
-                            <div class="project-header">
-                                <h3>Employee Sustainability Training</h3>
-                                <div class="project-status status-planning">Planning</div>
-                            </div>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 25%"></div>
-                                </div>
-                                <span class="progress-text">25% Complete</span>
-                            </div>
-                            <div class="project-details">
-                                <div class="detail-row">
-                                    <span class="detail-label">Start Date:</span>
-                                    <span class="detail-value">Feb 1, 2024</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Target Date:</span>
-                                    <span class="detail-value">Apr 30, 2024</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Impact:</span>
-                                    <span class="detail-value">+15% awareness</span>
-                                </div>
-                            </div>
-                            <div class="project-actions">
-                                <button class="btn-secondary btn-sm">View Details</button>
-                                <button class="btn-primary btn-sm">Start Project</button>
-                            </div>
+                        <div class="view-toggle">
+                            <button class="toggle-btn active" data-view="grid">
+                                <span class="material-icons">grid_view</span>
+                            </button>
+                            <button class="toggle-btn" data-view="list">
+                                <span class="material-icons">list</span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Reporting Section -->
-                <div class="reporting-section">
-                    <div class="section-header">
-                        <h2>Reports & Analytics</h2>
-                        <div class="reporting-actions">
-                            <button class="btn-secondary" id="generateReport">
-                                <span class="material-icons">description</span>
-                                Generate Report
-                            </button>
-                            <button class="btn-primary" id="scheduleReport">
-                                <span class="material-icons">schedule</span>
-                                Schedule Report
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="reports-grid">
-                        <div class="report-card">
-                            <div class="report-icon">
-                                <span class="material-icons">assessment</span>
-                            </div>
-                            <div class="report-content">
-                                <h3>Monthly Sustainability Report</h3>
-                                <p>Comprehensive overview of all sustainability metrics and progress</p>
-                                <div class="report-meta">
-                                    <span class="report-date">Last generated: Jan 31, 2024</span>
-                                    <span class="report-size">2.3 MB</span>
-                                </div>
-                            </div>
-                            <div class="report-actions">
-                                <button class="btn-secondary btn-sm">View</button>
-                                <button class="btn-primary btn-sm">Download</button>
-                            </div>
-                        </div>
-                        
-                        <div class="report-card">
-                            <div class="report-icon">
-                                <span class="material-icons">eco</span>
-                            </div>
-                            <div class="report-content">
-                                <h3>Carbon Footprint Analysis</h3>
-                                <p>Detailed breakdown of carbon emissions by category and trends</p>
-                                <div class="report-meta">
-                                    <span class="report-date">Last generated: Jan 28, 2024</span>
-                                    <span class="report-size">1.8 MB</span>
-                                </div>
-                            </div>
-                            <div class="report-actions">
-                                <button class="btn-secondary btn-sm">View</button>
-                                <button class="btn-primary btn-sm">Download</button>
-                            </div>
-                        </div>
-                        
-                        <div class="report-card">
-                            <div class="report-icon">
-                                <span class="material-icons">flag</span>
-                            </div>
-                            <div class="report-content">
-                                <h3>SDG Progress Report</h3>
-                                <p>Progress tracking for UN Sustainable Development Goals</p>
-                                <div class="report-meta">
-                                    <span class="report-date">Last generated: Jan 25, 2024</span>
-                                    <span class="report-size">1.5 MB</span>
-                                </div>
-                            </div>
-                            <div class="report-actions">
-                                <button class="btn-secondary btn-sm">View</button>
-                                <button class="btn-primary btn-sm">Download</button>
-                            </div>
-                        </div>
-                        
-                        <div class="report-card">
-                            <div class="report-icon">
-                                <span class="material-icons">timeline</span>
-                            </div>
-                            <div class="report-content">
-                                <h3>Project Impact Summary</h3>
-                                <p>Summary of all sustainability projects and their impact</p>
-                                <div class="report-meta">
-                                    <span class="report-date">Last generated: Jan 20, 2024</span>
-                                    <span class="report-size">1.2 MB</span>
-                                </div>
-                            </div>
-                            <div class="report-actions">
-                                <button class="btn-secondary btn-sm">View</button>
-                                <button class="btn-primary btn-sm">Download</button>
-                            </div>
-                        </div>
+                <div class="metrics-grid" id="metricsGrid">
+                    <!-- Metrics will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Analytics Charts Section -->
+            <div class="analytics-section">
+                <div class="section-header">
+                    <h2>Analytics & Trends</h2>
+                    <div class="chart-controls">
+                        <button class="btn-outline" id="toggleCharts">
+                            <span class="material-icons">visibility</span>
+                            Toggle Charts
+                        </button>
                     </div>
                 </div>
 
-                <!-- Data Management Section -->
-                <div class="data-management-section">
-                    <div class="section-header">
-                        <h2>Data Management</h2>
-                        <div class="data-actions">
-                            <button class="btn-secondary" id="backupData">
-                                <span class="material-icons">backup</span>
-                                Backup Data
-                            </button>
-                            <button class="btn-secondary" id="importData">
-                                <span class="material-icons">upload</span>
-                                Import Data
-                            </button>
-                            <button class="btn-primary" id="syncData">
-                                <span class="material-icons">sync</span>
-                                Sync Data
+                <div class="charts-container" id="chartsContainer">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Sustainability Score Trend</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: var(--accent-red);"></span>
+                                    <span>Current Score</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: var(--accent-blue);"></span>
+                                    <span>Target Score</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="sustainabilityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Category Performance</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: var(--accent-green);"></span>
+                                    <span>Environmental</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: var(--accent-blue);"></span>
+                                    <span>Social</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: var(--accent-red);"></span>
+                                    <span>Economic</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Carbon Footprint Analysis</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #4CAF50;"></span>
+                                    <span>Electricity</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #2196F3;"></span>
+                                    <span>Transportation</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #FF9800;"></span>
+                                    <span>Other Sources</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="carbonChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>SDG Progress Tracking</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #E91E63;"></span>
+                                    <span>Primary Goals</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #9C27B0;"></span>
+                                    <span>Secondary Goals</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="sdgChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights Section -->
+            <div class="ai-insights-section">
+                <div class="section-header">
+                    <h2>AI-Powered Insights</h2>
+                    <div class="insights-controls">
+                        <button class="btn-outline" id="generateInsights">
+                            <span class="material-icons">psychology</span>
+                            Generate New Insights
+                        </button>
+                    </div>
+                </div>
+
+                <div class="insights-container" id="insightsContainer">
+                    <!-- AI insights will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Data Export Section -->
+            <div class="export-section">
+                <div class="section-header">
+                    <h2>Data Export & Reports</h2>
+                    <p>Export your sustainability data in various formats</p>
+                </div>
+
+                <div class="export-options">
+                    <div class="export-card">
+                        <div class="export-icon">
+                            <span class="material-icons">table_chart</span>
+                        </div>
+                        <div class="export-content">
+                            <h3>Excel Report</h3>
+                            <p>Comprehensive data export with charts and analysis</p>
+                            <button class="btn-primary" onclick="exportData('excel')">
+                                <span class="material-icons">download</span>
+                                Download Excel
                             </button>
                         </div>
                     </div>
-                    
-                    <div class="data-stats">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <span class="material-icons">storage</span>
-                            </div>
-                            <div class="stat-content">
-                                <h3>Data Storage</h3>
-                                <div class="stat-value">2.4 GB</div>
-                                <div class="stat-subtitle">Used of 10 GB</div>
-                            </div>
+
+                    <div class="export-card">
+                        <div class="export-icon">
+                            <span class="material-icons">description</span>
                         </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <span class="material-icons">history</span>
-                            </div>
-                            <div class="stat-content">
-                                <h3>Last Backup</h3>
-                                <div class="stat-value">2 hours ago</div>
-                                <div class="stat-subtitle">Automatic backup</div>
-                            </div>
+                        <div class="export-content">
+                            <h3>PDF Report</h3>
+                            <p>Professional PDF report with visualizations</p>
+                            <button class="btn-primary" onclick="exportData('pdf')">
+                                <span class="material-icons">download</span>
+                                Download PDF
+                            </button>
                         </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <span class="material-icons">security</span>
-                            </div>
-                            <div class="stat-content">
-                                <h3>Data Security</h3>
-                                <div class="stat-value">Encrypted</div>
-                                <div class="stat-subtitle">AES-256 encryption</div>
-                            </div>
+                    </div>
+
+                    <div class="export-card">
+                        <div class="export-icon">
+                            <span class="material-icons">code</span>
                         </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <span class="material-icons">cloud_done</span>
-                            </div>
-                            <div class="stat-content">
-                                <h3>Cloud Sync</h3>
-                                <div class="stat-value">Enabled</div>
-                                <div class="stat-subtitle">Real-time sync</div>
-                            </div>
+                        <div class="export-content">
+                            <h3>JSON Data</h3>
+                            <p>Raw data export for integration purposes</p>
+                            <button class="btn-primary" onclick="exportData('json')">
+                                <span class="material-icons">download</span>
+                                Download JSON
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -456,9 +259,24 @@
         </div>
     </div>
 
-    <!-- Data Center JavaScript -->
-    <script src="{{ url_for('static', filename='js/data-center.js') }}"></script>
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/data_center.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script>
+        // Set current date
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateElement = document.querySelector('.date-text');
+            if (dateElement) {
+                const today = new Date();
+                const options = { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                };
+                dateElement.textContent = today.toLocaleDateString('en-US', options);
+            }
+        });
+    </script>
 </body>
 </html>
