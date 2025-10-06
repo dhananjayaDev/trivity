@@ -192,14 +192,7 @@ body {
     flex-direction: column;
 }
 
-.top-bar {
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #333;
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/* Top-bar styles moved to index.css for consistency */
 
 .app-header {
     display: flex;

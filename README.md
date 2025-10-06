@@ -99,19 +99,103 @@ Flask API → JSON Data → Vanilla JavaScript → DOM Updates
 
 ## 📊 Features
 
-- **Modern Dark Theme**: Professional dark UI design
-- **Responsive Layout**: Works on all screen sizes
-- **Real-time Data**: Dynamic charts and metrics
-- **Interactive Charts**: Sessions and page views visualization
-- **Sidebar Navigation**: Clean navigation with user profile
-- **Material Design**: Google Material Design components
-- **No Dependencies**: Pure Flask + vanilla JavaScript
+### 🔐 **Authentication & User Management**
+- **User Registration/Login** - Secure authentication with MongoDB
+- **Profile Management** - Update personal information and company details
+- **Password Security** - Bcrypt hashing for secure password storage
+- **Session Management** - Flask-Login integration with persistent sessions
+
+### 🤖 **AI-Powered Analysis**
+- **Gemini AI Integration** - Google's advanced AI for sustainability analysis
+- **Smart Assessment Analysis** - AI-powered scoring and recommendations
+- **Personalized SDG Recommendations** - Tailored UN Sustainable Development Goals
+- **Carbon Footprint Analysis** - AI insights on emissions reduction strategies
+- **Fallback Mode** - Graceful degradation when AI is unavailable
+
+### 📊 **Sustainability Assessment**
+- **Comprehensive Questionnaire** - Multi-category sustainability evaluation
+- **Real-time Scoring** - Instant calculation of Sustainability Readiness Index (SRI)
+- **Category Breakdown** - Detailed scores for General, Environment, Social, Governance
+- **Progress Tracking** - Visual progress indicators and completion status
+
+### 🌍 **Carbon Footprint Calculator**
+- **Multi-source Emissions** - Electricity, transportation, refrigerants, mobile, combustion
+- **Industry-standard Factors** - Accurate emission calculations using established coefficients
+- **Visual Analytics** - Charts and graphs for emission breakdown
+- **Reduction Recommendations** - AI-powered suggestions for emission reduction
+
+### 🎯 **UN SDG Recommendations**
+- **AI-Powered Suggestions** - Personalized recommendations based on user profile
+- **Priority Classification** - Primary and secondary goal identification
+- **Detailed Explanations** - Why each SDG is relevant to the user
+- **Actionable Insights** - Specific opportunities and implementation strategies
+
+### 📈 **Dashboard & Analytics**
+- **Real-time Data** - Live updates from user assessments and calculations
+- **Circular Progress Indicators** - Visual representation of sustainability scores
+- **Achievement System** - Trophy-based recognition for sustainability milestones
+- **AI Insights Panel** - Personalized recommendations and performance summaries
+- **Progress Tracking** - Completion status across all platform features
+
+### 📋 **Reports & Export**
+- **Excel Export** - Professional .xlsx reports with formatting
+- **CSV Export** - Universal data format for analysis
+- **Assessment Reports** - Detailed SRI analysis with category breakdowns
+- **Carbon Reports** - Comprehensive emissions analysis by source
+- **SDG Reports** - AI recommendations with priority levels
+- **Comprehensive Reports** - Complete sustainability overview
+- **Admin Reports** - System-wide analytics for administrators
+
+### 🎨 **Modern UI/UX**
+- **Dark/Light Themes** - Professional theme switching with persistence
+- **Responsive Design** - Mobile-first approach for all screen sizes
+- **Material Design** - Google Material Design principles and components
+- **Glass-morphism Effects** - Modern visual effects and animations
+- **Interactive Elements** - Hover effects, transitions, and micro-interactions
+- **Accessibility** - Semantic HTML and keyboard navigation support
+
+### 🔧 **Technical Features**
+- **MongoDB Atlas** - Cloud-hosted NoSQL database for scalability
+- **RESTful API** - Clean API endpoints for all platform functionality
+- **Real-time Updates** - Dynamic data loading and updates
+- **Error Handling** - Comprehensive error management and user feedback
+- **Performance Monitoring** - Built-in performance tracking and optimization
+- **Security** - Input validation, sanitization, and secure authentication
 
 ## 🔌 API Endpoints
 
-- `GET /` - Main dashboard page
-- `GET /api/dashboard-data` - Dashboard metrics and chart data
-- `GET /api/user-profile` - User profile information
+### **Authentication**
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `GET /auth/logout` - User logout
+- `GET /auth/profile` - User profile page
+- `POST /auth/profile/update` - Update user profile
+- `POST /auth/change-password` - Change user password
+
+### **Main Pages**
+- `GET /` - Dashboard page
+- `GET /sustainability-index` - Sustainability assessment page
+- `GET /recommended-sdgs` - UN SDG recommendations page
+- `GET /data-center` - Data center page
+- `GET /carbon-calculator` - Carbon calculator page
+- `GET /reports` - Reports & analytics page
+
+### **API Endpoints**
+- `GET /api/health` - Health check endpoint
+- `GET /api/dashboard/data` - Dashboard data
+- `GET /api/user/progress` - User progress tracking
+- `POST /api/assessment/analyze` - Analyze sustainability assessment
+- `GET /api/sdg/recommendations` - Get SDG recommendations
+- `POST /api/carbon/analyze` - Analyze carbon footprint
+- `GET /api/insights/dashboard` - Get AI dashboard insights
+- `GET /api/ai/status` - Check AI service status
+
+### **Report Generation**
+- `GET /api/reports/assessment?format=excel` - Generate assessment report
+- `GET /api/reports/carbon?format=csv` - Generate carbon report
+- `GET /api/reports/sdg?format=excel` - Generate SDG report
+- `GET /api/reports/comprehensive?format=excel` - Generate comprehensive report
+- `GET /api/reports/admin?format=excel` - Generate admin report (admin only)
 
 ## 🛠️ Configuration
 

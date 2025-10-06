@@ -41,9 +41,178 @@
             
             <!-- Content Area -->
             <div class="content-area">
-                {% include 'components/overview.html' %}
-                {% include 'components/charts.html' %}
-                {% include 'components/details.html' %}
+                <!-- Sustainability Readiness Index Section -->
+                <div class="sri-section">
+                    <div class="sri-header">
+                        <h1 class="sri-title">Sustainability Readiness Index</h1>
+                        <p class="sri-subtitle">Comprehensive assessment of your organization's sustainability performance</p>
+                    </div>
+                    
+                    <div class="sri-content">
+                        <!-- Score Analysis Section -->
+                        <div class="score-analysis-section">
+                            <div class="score-display">
+                                <div class="total-score-container">
+                                    <div class="circular-progress" id="totalScoreChart">
+                                        <div class="progress-circle">
+                                            <div class="progress-text">
+                                                <span class="score-value" id="totalScore">0.0</span>
+                                                <span class="score-unit">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="score-interpretation">
+                                        <h3>What the score means</h3>
+                                        <p id="scoreDescription">Complete the Sustainability Readiness Index assessment to get your personalized score and recommendations.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="category-breakdown">
+                                <h3>Score Breakdown by Category</h3>
+                                <div class="category-scores">
+                                    <div class="category-score">
+                                        <div class="category-progress">
+                                            <div class="mini-circle" data-category="general" data-score="0">
+                                                <span class="mini-score">0.0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="category-label">General</div>
+                                    </div>
+                                    <div class="category-score">
+                                        <div class="category-progress">
+                                            <div class="mini-circle" data-category="environment" data-score="0">
+                                                <span class="mini-score">0.0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="category-label">Environment</div>
+                                    </div>
+                                    <div class="category-score">
+                                        <div class="category-progress">
+                                            <div class="mini-circle" data-category="social" data-score="0">
+                                                <span class="mini-score">0.0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="category-label">Social</div>
+                                    </div>
+                                    <div class="category-score">
+                                        <div class="category-progress">
+                                            <div class="mini-circle" data-category="governance" data-score="0">
+                                                <span class="mini-score">0.0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="category-label">Governance</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Achievement & Action Section -->
+                        <div class="achievement-action-section">
+                            <div class="trophies-display" id="achievementTrophies">
+                                <div class="trophy-item trophy-champion" data-trophy="champion">
+                                    <div class="trophy-icon">
+                                        <span class="material-icons">emoji_events</span>
+                                    </div>
+                                    <div class="trophy-label">Sustainability Champion</div>
+                                    <div class="trophy-text">Champion</div>
+                                </div>
+                                <div class="trophy-item trophy-leader" data-trophy="leader">
+                                    <div class="trophy-icon">
+                                        <span class="material-icons">emoji_events</span>
+                                    </div>
+                                    <div class="trophy-label">Sustainability Leader</div>
+                                    <div class="trophy-text">Leader</div>
+                                </div>
+                                <div class="trophy-item trophy-advocate" data-trophy="advocate">
+                                    <div class="trophy-icon">
+                                        <span class="material-icons">emoji_events</span>
+                                    </div>
+                                    <div class="trophy-label">Sustainability Advocate</div>
+                                    <div class="trophy-text">Advocate</div>
+                                </div>
+                            </div>
+                    
+                            <div class="action-section">
+                                <button class="btn-primary proceed-btn" id="proceedToSRI">
+                                    <span class="material-icons">arrow_forward</span>
+                                    Proceed to SRI
+                                </button>
+                                <div class="button-subtitle">Proceed to Sustainability Readiness Index</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recommended UN SDG Goals Section -->
+                <div class="sdg-recommendations-section">
+                    <div class="sdg-header">
+                        <div class="sdg-title-row">
+                            <h2 class="sdg-title">
+                                <span class="title-part-blue">Recommended</span>
+                                <span class="title-part-green">17 UN SDG Goals</span>
+                            </h2>
+                            <p class="sdg-subtitle">Based on your company's profile here are your top 2 UN SDG Goals</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sdg-goals-grid">
+                        <div class="sdg-goal-card primary-goal">
+                            <div class="sdg-icon sdg-7">
+                                <div class="sdg-number">7</div>
+                                <div class="sdg-symbol">⚡</div>
+                            </div>
+                            <div class="sdg-content">
+                                <h3>Affordable and Clean Energy</h3>
+                                <p class="sdg-description">Goals that are relevant with immediate opportunities</p>
+                                <div class="goal-label primary-label">Primary</div>
+                                <button class="btn-secondary learn-more-btn">
+                                    <span class="material-icons">info</span>
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="sdg-goal-card secondary-goal">
+                            <div class="sdg-icon sdg-13">
+                                <div class="sdg-number">13</div>
+                                <div class="sdg-symbol">🌍</div>
+                            </div>
+                            <div class="sdg-content">
+                                <h3>Climate Action</h3>
+                                <p class="sdg-description">Goals that are relevant with long term opportunities</p>
+                                <div class="goal-label secondary-label">Secondary</div>
+                                <button class="btn-secondary learn-more-btn">
+                                    <span class="material-icons">info</span>
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Center Section -->
+                <div class="data-center-section">
+                    <div class="data-center-header">
+                        <h2>Data Center</h2>
+                    </div>
+                    
+                    <div class="data-center-content">
+                        <div class="data-center-placeholder">
+                            <div class="placeholder-icon">
+                                <span class="material-icons">storage</span>
+                            </div>
+                            <div class="placeholder-text">
+                                <h3>No Data Available</h3>
+                                <p>Sorry, there is no information available to show. Please click the button below to fill in the required information.</p>
+                            </div>
+                            <button class="btn-primary proceed-btn" id="proceedToCarbonCalculator">
+                                <span class="material-icons">calculate</span>
+                                Proceed to Carbon Emissions Calculator
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -52,5 +221,6 @@
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ai-service.js') }}"></script>
 </body>
 </html>

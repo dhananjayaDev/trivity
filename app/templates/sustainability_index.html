@@ -43,32 +43,443 @@
             <div class="content-area">
                 <h1 class="page-title">Sustainability Readiness Index</h1>
                 
-                <!-- Placeholder Content -->
-                <div style="background-color: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 8px; padding: 40px; text-align: center;">
-                    <span class="material-icons" style="font-size: 64px; color: var(--text-muted); margin-bottom: 16px;">assessment</span>
-                    <h2 style="color: var(--text-primary); margin-bottom: 16px;">Sustainability Assessment</h2>
-                    <p style="color: var(--text-secondary); margin-bottom: 24px;">
-                        This page will contain the sustainability readiness assessment questionnaire, 
-                        progress tracking, and scoring system.
-                    </p>
-                    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">General Questions</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Company sustainability awareness and policies</p>
+                <!-- Progress Bar -->
+                <div class="assessment-progress">
+                    <div class="progress-header">
+                        <h3 style="color: var(--text-primary); margin: 0;">Assessment Progress</h3>
+                        <span class="progress-text" id="progressText">0 of 27 questions completed</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Assessment Categories -->
+                <div class="assessment-container">
+                    
+                    <!-- General Questions Section -->
+                    <div class="assessment-section" id="general-section">
+                        <div class="section-header">
+                            <h2 class="section-title">1. General Questions</h2>
+                            <div class="section-score" id="general-score">0/4</div>
                         </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Environment</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Environmental impact and carbon footprint</p>
-                        </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Social</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Employee satisfaction and social responsibility</p>
-                        </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Governance</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Corporate governance and ethical practices</p>
+                        <div class="questions-container">
+                            <div class="question-item">
+                                <p class="question-text">Is Sustainability important in your company?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_1" value="yes" data-category="general">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_1" value="no" data-category="general">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company have a team to look at Sustainability aspects?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_2" value="yes" data-category="general">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_2" value="no" data-category="general">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Do you think Sustainability is crucial for every company?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_3" value="yes" data-category="general">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_3" value="no" data-category="general">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company have a clear understanding of what ESG means?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_4" value="yes" data-category="general">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="general_4" value="no" data-category="general">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Environment Questions Section -->
+                    <div class="assessment-section" id="environment-section">
+                        <div class="section-header">
+                            <h2 class="section-title">2. Environment Questions</h2>
+                            <div class="section-score" id="environment-score">0/5</div>
+                        </div>
+                        <div class="questions-container">
+                            <div class="question-item">
+                                <p class="question-text">Is your company aware of its carbon footprint?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_1" value="yes" data-category="environment">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_1" value="no" data-category="environment">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Are there steps planned to reduce carbon footprint?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_2" value="yes" data-category="environment">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_2" value="no" data-category="environment">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Is your company aware of its energy usage?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_3" value="yes" data-category="environment">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_3" value="no" data-category="environment">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Is your company aware of its impact on air and water quality?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_4" value="yes" data-category="environment">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_4" value="no" data-category="environment">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Are you aware of the natural resources used by your company?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_5" value="yes" data-category="environment">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="environment_5" value="no" data-category="environment">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Questions Section -->
+                    <div class="assessment-section" id="social-section">
+                        <div class="section-header">
+                            <h2 class="section-title">3. Social Questions</h2>
+                            <div class="section-score" id="social-score">0/8</div>
+                        </div>
+                        <div class="questions-container">
+                            <div class="question-item">
+                                <p class="question-text">Does your company have equal employment opportunities for both genders?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_1" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_1" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Are you satisfied with the company's culture?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_2" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_2" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Is your company aware of the importance of mental wellbeing?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_3" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_3" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Are you satisfied with the company's working environment?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_4" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_4" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company provide equal career advancement opportunities?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_5" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_5" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Do you feel safe working in your company?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_6" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_6" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Are the company policies fair to employees?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_7" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_7" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Do company policies keep up with the times?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_8" value="yes" data-category="social">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="social_8" value="no" data-category="social">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Governance Questions Section -->
+                    <div class="assessment-section" id="governance-section">
+                        <div class="section-header">
+                            <h2 class="section-title">4. Governance Questions</h2>
+                            <div class="section-score" id="governance-score">0/10</div>
+                        </div>
+                        <div class="questions-container">
+                            <div class="question-item">
+                                <p class="question-text">Can you trust management to handle difficult situations fairly?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_1" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_1" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company have a balanced board composition?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_2" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_2" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Is management aware of the importance of corporate culture?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_3" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_3" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Is management aware of any unethical behavior?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_4" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_4" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company have a board of directors to hold CEO accountable?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_5" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_5" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company have PDPA policies?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_6" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_6" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company have a team to manage data protection?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_7" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_7" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Does your company prioritize diversity and inclusivity?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_8" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_8" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Can you trust management to make ethical decisions?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_9" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_9" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-item">
+                                <p class="question-text">Are there policies to prevent corruption and bribery?</p>
+                                <div class="answer-options">
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_10" value="yes" data-category="governance">
+                                        <span class="radio-label">Yes</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="governance_10" value="no" data-category="governance">
+                                        <span class="radio-label">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Submit Button -->
+                <div class="submit-section">
+                    <button class="submit-assessment-btn" id="submitBtn" disabled>
+                        <span class="material-icons">assessment</span>
+                        Submit Assessment
+                    </button>
+                    <p class="submit-note">Complete all questions to submit your assessment</p>
                 </div>
             </div>
         </div>
@@ -78,5 +489,6 @@
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/assessment.js') }}"></script>
 </body>
 </html>

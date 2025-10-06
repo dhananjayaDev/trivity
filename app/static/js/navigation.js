@@ -39,7 +39,9 @@ class NavigationManager {
             '/sustainability-index': 'sustainability-index',
             '/recommended-sdgs': 'recommended-sdgs',
             '/data-center': 'data-center',
-            '/carbon-calculator': 'carbon-calculator'
+            '/carbon-calculator': 'carbon-calculator',
+            '/reports': 'reports',
+            '/auth/profile': 'profile'
         };
         return pageMap[path] || 'dashboard';
     }
@@ -77,13 +79,15 @@ class NavigationManager {
         if (!breadcrumb) return;
         
         // Simplified breadcrumb mapping - just the main section
-        const breadcrumbMap = {
-            'dashboard': 'Dashboard',
-            'sustainability-index': 'Sustainability Index',
-            'recommended-sdgs': 'UN SDGs',
-            'data-center': 'Data Center',
-            'carbon-calculator': 'Carbon Calculator'
-        };
+            const breadcrumbMap = {
+                'dashboard': 'Dashboard',
+                'sustainability-index': 'Sustainability Index',
+                'recommended-sdgs': 'UN SDGs',
+                'data-center': 'Data Center',
+                'carbon-calculator': 'Carbon Calculator',
+                'reports': 'Reports & Analytics',
+                'profile': 'Profile'
+            };
         
         const breadcrumbText = breadcrumbMap[page];
         if (breadcrumbText) {
@@ -95,13 +99,15 @@ class NavigationManager {
     
     loadPage(page) {
         // Map pages to their URLs
-        const pageUrls = {
-            'dashboard': '/',
-            'sustainability-index': '/sustainability-index',
-            'recommended-sdgs': '/recommended-sdgs',
-            'data-center': '/data-center',
-            'carbon-calculator': '/carbon-calculator'
-        };
+            const pageUrls = {
+                'dashboard': '/',
+                'sustainability-index': '/sustainability-index',
+                'recommended-sdgs': '/recommended-sdgs',
+                'data-center': '/data-center',
+                'carbon-calculator': '/carbon-calculator',
+                'reports': '/reports',
+                'profile': '/auth/profile'
+            };
         
         const url = pageUrls[page];
         const currentPath = window.location.pathname;
@@ -201,15 +207,8 @@ function signOut() {
         dropdown.classList.remove('show');
     }
     
-    // Show sign out confirmation or redirect
-    if (confirm('Are you sure you want to sign out?')) {
-        // In a real app, this would handle actual sign out
-        console.log('Signing out...');
-        // window.location.href = '/logout';
-        
-        // For demonstration, show a message
-        alert('Sign out functionality would be implemented here');
-    }
+    // Redirect to logout
+    window.location.href = '/auth/logout';
 }
 
 // Close dropdown when clicking outside

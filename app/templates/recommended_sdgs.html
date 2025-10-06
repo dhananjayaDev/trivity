@@ -43,26 +43,266 @@
             <div class="content-area">
                 <h1 class="page-title">Recommended UN SDGs</h1>
                 
-                <!-- Placeholder Content -->
-                <div style="background-color: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 8px; padding: 40px; text-align: center;">
-                    <span class="material-icons" style="font-size: 64px; color: var(--text-muted); margin-bottom: 16px;">eco</span>
-                    <h2 style="color: var(--text-primary); margin-bottom: 16px;">UN Sustainable Development Goals</h2>
-                    <p style="color: var(--text-secondary); margin-bottom: 24px;">
-                        This page will contain company profiling, SDG recommendation algorithm, 
-                        and personalized goal recommendations based on your business profile.
-                    </p>
-                    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Company Profiling</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Industry, size, location, and business type</p>
+                <!-- Progress Steps -->
+                <div class="steps-progress">
+                    <div class="step active" id="step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Company Info</div>
+                    </div>
+                    <div class="step" id="step-2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Project Details</div>
+                    </div>
+                    <div class="step" id="step-3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Analysis</div>
+                    </div>
+                    <div class="step" id="step-4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Results</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Company Information -->
+                <div class="step-content active" id="step-content-1">
+                    <div class="form-section">
+                        <h2 class="section-title">Company Information</h2>
+                        <p class="section-description">Provide your company details to help our AI system understand your organization and recommend relevant SDGs.</p>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Company Name</label>
+                                <input type="text" class="form-input" id="companyName" placeholder="Enter your company name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Industry</label>
+                                <select class="form-select" id="industry">
+                                    <option value="">Select Industry</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="energy">Energy & Utilities</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="education">Education</option>
+                                    <option value="retail">Retail</option>
+                                    <option value="construction">Construction</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="transportation">Transportation</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Company Size</label>
+                                <select class="form-select" id="companySize">
+                                    <option value="">Select Company Size</option>
+                                    <option value="startup">Startup (1-10 employees)</option>
+                                    <option value="small">Small (11-50 employees)</option>
+                                    <option value="medium">Medium (51-200 employees)</option>
+                                    <option value="large">Large (201-1000 employees)</option>
+                                    <option value="enterprise">Enterprise (1000+ employees)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Country</label>
+                                <select class="form-select" id="country">
+                                    <option value="">Select Country</option>
+                                    <option value="singapore">Singapore</option>
+                                    <option value="malaysia">Malaysia</option>
+                                    <option value="thailand">Thailand</option>
+                                    <option value="indonesia">Indonesia</option>
+                                    <option value="philippines">Philippines</option>
+                                    <option value="vietnam">Vietnam</option>
+                                    <option value="usa">United States</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="australia">Australia</option>
+                                    <option value="japan">Japan</option>
+                                    <option value="china">China</option>
+                                    <option value="india">India</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">Company Description</label>
+                                <textarea class="form-textarea" id="companyDescription" placeholder="Briefly describe your company's mission, values, and main activities"></textarea>
+                            </div>
                         </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">SDG Recommendations</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Personalized goal suggestions</p>
+                        
+                        <div class="form-actions">
+                            <button class="btn-primary" id="nextToStep2">
+                                Next: Project Details
+                                <span class="material-icons">arrow_forward</span>
+                            </button>
                         </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Impact Analysis</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Major and medium impact opportunities</p>
+                    </div>
+                </div>
+
+                <!-- Step 2: Project Details -->
+                <div class="step-content" id="step-content-2">
+                    <div class="form-section">
+                        <h2 class="section-title">Project Information</h2>
+                        <p class="section-description">Tell us about your specific project or initiative to get targeted SDG recommendations.</p>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Project Name</label>
+                                <input type="text" class="form-input" id="projectName" placeholder="Enter project name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Project Type</label>
+                                <select class="form-select" id="projectType">
+                                    <option value="">Select Project Type</option>
+                                    <option value="renewable-energy">Renewable Energy</option>
+                                    <option value="sustainability">Sustainability Initiative</option>
+                                    <option value="social-impact">Social Impact</option>
+                                    <option value="education">Education Program</option>
+                                    <option value="healthcare">Healthcare Initiative</option>
+                                    <option value="technology">Technology Development</option>
+                                    <option value="infrastructure">Infrastructure</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="waste-management">Waste Management</option>
+                                    <option value="water-management">Water Management</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Project Duration</label>
+                                <select class="form-select" id="projectDuration">
+                                    <option value="">Select Duration</option>
+                                    <option value="short">Short-term (1-6 months)</option>
+                                    <option value="medium">Medium-term (6 months - 2 years)</option>
+                                    <option value="long">Long-term (2+ years)</option>
+                                    <option value="ongoing">Ongoing</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Budget Range</label>
+                                <select class="form-select" id="budgetRange">
+                                    <option value="">Select Budget Range</option>
+                                    <option value="under-10k">Under $10,000</option>
+                                    <option value="10k-50k">$10,000 - $50,000</option>
+                                    <option value="50k-100k">$50,000 - $100,000</option>
+                                    <option value="100k-500k">$100,000 - $500,000</option>
+                                    <option value="500k-1m">$500,000 - $1M</option>
+                                    <option value="over-1m">Over $1M</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">Project Description</label>
+                                <textarea class="form-textarea" id="projectDescription" placeholder="Describe your project goals, activities, and expected outcomes"></textarea>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">Target Beneficiaries</label>
+                                <textarea class="form-textarea" id="targetBeneficiaries" placeholder="Who will benefit from this project? (e.g., local community, employees, customers, environment)"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn-secondary" id="backToStep1">
+                                <span class="material-icons">arrow_back</span>
+                                Back
+                            </button>
+                            <button class="btn-primary" id="nextToStep3">
+                                Next: Analysis
+                                <span class="material-icons">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Analysis -->
+                <div class="step-content" id="step-content-3">
+                    <div class="analysis-section">
+                        <h2 class="section-title">AI Analysis in Progress</h2>
+                        <p class="section-description">Our machine learning system is analyzing your information to recommend the most relevant UN SDGs for your project.</p>
+                        
+                        <div class="analysis-animation">
+                            <div class="loading-spinner"></div>
+                            <div class="analysis-steps">
+                                <div class="analysis-step active">
+                                    <span class="material-icons">analytics</span>
+                                    <span>Analyzing company profile...</span>
+                                </div>
+                                <div class="analysis-step">
+                                    <span class="material-icons">engineering</span>
+                                    <span>Processing project details...</span>
+                                </div>
+                                <div class="analysis-step">
+                                    <span class="material-icons">psychology</span>
+                                    <span>Running ML algorithms...</span>
+                                </div>
+                                <div class="analysis-step">
+                                    <span class="material-icons">insights</span>
+                                    <span>Generating recommendations...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="analysisProgress"></div>
+                            </div>
+                            <div class="progress-text" id="analysisProgressText">0% Complete</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Results -->
+                <div class="step-content" id="step-content-4">
+                    <div class="results-section">
+                        <h2 class="section-title">SDG Recommendations</h2>
+                        <p class="section-description">Based on your company and project information, here are the recommended UN Sustainable Development Goals:</p>
+                        
+                        <!-- Major Impact Goals -->
+                        <div class="sdg-category">
+                            <h3 class="category-title major-impact">
+                                <span class="material-icons">star</span>
+                                Major Impact Goals
+                            </h3>
+                            <div class="sdg-cards" id="majorImpactGoals">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Medium Impact Goals -->
+                        <div class="sdg-category">
+                            <h3 class="category-title medium-impact">
+                                <span class="material-icons">trending_up</span>
+                                Medium Impact Goals
+                            </h3>
+                            <div class="sdg-cards" id="mediumImpactGoals">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Recommendations -->
+                        <div class="additional-recommendations">
+                            <h3 class="category-title">
+                                <span class="material-icons">lightbulb</span>
+                                Additional Recommendations
+                            </h3>
+                            <div class="recommendations-list" id="additionalRecommendations">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn-secondary" id="backToStep2">
+                                <span class="material-icons">arrow_back</span>
+                                Back to Project Details
+                            </button>
+                            <button class="btn-primary" id="downloadReport">
+                                <span class="material-icons">download</span>
+                                Download Report
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -74,5 +314,6 @@
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sdg-recommendations.js') }}"></script>
 </body>
 </html>

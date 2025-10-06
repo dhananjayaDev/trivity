@@ -49,6 +49,12 @@
                 <span class="nav-text">Carbon Emissions Calculator</span>
             </button>
         </div>
+        <div class="nav-item">
+            <button class="nav-button" data-page="reports">
+                <span class="material-icons nav-icon">summarize</span>
+                <span class="nav-text">Reports & Analytics</span>
+            </button>
+        </div>
     </div>
     
     <!-- Coming Soon Section -->
@@ -100,17 +106,21 @@
     
     <!-- User Profile -->
     <div class="user-profile">
-        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+        <img src="{{ user.get_avatar_url() if user else 'https://ui-avatars.com/api/?name=U&background=4caf50&color=fff&size=200' }}" 
              alt="User Avatar" class="user-avatar">
         <div class="user-info">
-            <div class="user-name">Riley Carter</div>
-            <div class="user-email">riley@email.com</div>
+            <div class="user-name">{{ user.get_full_name() if user else 'Guest User' }}</div>
+            <div class="user-email">{{ user.email if user else 'guest@example.com' }}</div>
         </div>
         <div class="user-menu-container">
             <button class="icon-button user-menu-toggle" onclick="toggleUserMenu()">
                 <span class="material-icons">more_vert</span>
             </button>
             <div class="user-menu-dropdown" id="userMenuDropdown">
+                <div class="user-menu-item" onclick="navigateTo('profile')">
+                    <span class="material-icons">person</span>
+                    <span>Profile</span>
+                </div>
                 <div class="user-menu-item" onclick="navigateTo('settings')">
                     <span class="material-icons">settings</span>
                     <span>Settings</span>

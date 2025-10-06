@@ -43,30 +43,387 @@
             <div class="content-area">
                 <h1 class="page-title">Carbon Emissions Calculator</h1>
                 
-                <!-- Placeholder Content -->
-                <div style="background-color: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 8px; padding: 40px; text-align: center;">
-                    <span class="material-icons" style="font-size: 64px; color: var(--text-muted); margin-bottom: 16px;">calculate</span>
-                    <h2 style="color: var(--text-primary); margin-bottom: 16px;">Carbon Footprint Calculator</h2>
-                    <p style="color: var(--text-secondary); margin-bottom: 24px;">
-                        This page will contain carbon emission calculation tools, input forms, 
-                        and comprehensive reporting features for sustainability tracking.
-                    </p>
-                    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Emission Input Forms</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Data entry for various emission sources</p>
+                <!-- Calculator Overview -->
+                <div class="calculator-overview">
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <span class="material-icons">eco</span>
                         </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Calculation Tools</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Automated carbon footprint calculations</p>
+                        <div class="overview-content">
+                            <h3>Total Carbon Footprint</h3>
+                            <div class="total-emissions" id="totalEmissions">0.00</div>
+                            <div class="emissions-unit">tonnes CO₂e</div>
                         </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Reporting Features</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Generate sustainability reports</p>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <span class="material-icons">trending_down</span>
                         </div>
-                        <div style="background-color: var(--bg-secondary); padding: 16px; border-radius: 8px; min-width: 200px;">
-                            <h3 style="color: var(--text-primary); margin-bottom: 8px;">Trend Analysis</h3>
-                            <p style="color: var(--text-secondary); font-size: 14px;">Track emission trends over time</p>
+                        <div class="overview-content">
+                            <h3>Reduction Potential</h3>
+                            <div class="reduction-potential" id="reductionPotential">0.00</div>
+                            <div class="emissions-unit">tonnes CO₂e</div>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <span class="material-icons">timeline</span>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Annual Projection</h3>
+                            <div class="annual-projection" id="annualProjection">0.00</div>
+                            <div class="emissions-unit">tonnes CO₂e/year</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculator Categories -->
+                <div class="calculator-categories">
+                    
+                    <!-- Electricity Consumption -->
+                    <div class="category-section" id="electricity-section">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <span class="material-icons">bolt</span>
+                            </div>
+                            <div class="category-info">
+                                <h3>Electricity Consumption</h3>
+                                <p>Calculate emissions from electrical energy usage</p>
+                            </div>
+                            <div class="category-emissions" id="electricityEmissions">0.00 tCO₂e</div>
+                        </div>
+                        
+                        <div class="category-content">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label class="input-label">Monthly Electricity Usage</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="electricityUsage" placeholder="0" step="0.01">
+                                        <select class="unit-select" id="electricityUnit">
+                                            <option value="kwh">kWh</option>
+                                            <option value="mwh">MWh</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Grid Emission Factor</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="gridEmissionFactor" placeholder="0.5" step="0.01" value="0.5">
+                                        <span class="unit-label">kg CO₂e/kWh</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Renewable Energy %</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="renewablePercentage" placeholder="0" min="0" max="100" step="1">
+                                        <span class="unit-label">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="calculation-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Base Emissions:</span>
+                                    <span class="detail-value" id="electricityBaseEmissions">0.00 tCO₂e</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Renewable Offset:</span>
+                                    <span class="detail-value" id="electricityRenewableOffset">0.00 tCO₂e</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transportation -->
+                    <div class="category-section" id="transportation-section">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <span class="material-icons">directions_car</span>
+                            </div>
+                            <div class="category-info">
+                                <h3>Transportation</h3>
+                                <p>Calculate emissions from vehicle usage and travel</p>
+                            </div>
+                            <div class="category-emissions" id="transportationEmissions">0.00 tCO₂e</div>
+                        </div>
+                        
+                        <div class="category-content">
+                            <div class="transportation-tabs">
+                                <button class="tab-button active" data-tab="vehicle">Vehicle Usage</button>
+                                <button class="tab-button" data-tab="flights">Flights</button>
+                                <button class="tab-button" data-tab="public">Public Transport</button>
+                            </div>
+                            
+                            <!-- Vehicle Usage Tab -->
+                            <div class="tab-content active" id="vehicle-tab">
+                                <div class="input-grid">
+                                    <div class="input-group">
+                                        <label class="input-label">Vehicle Type</label>
+                                        <select class="form-select" id="vehicleType">
+                                            <option value="">Select Vehicle Type</option>
+                                            <option value="sedan">Sedan (Gasoline)</option>
+                                            <option value="suv">SUV (Gasoline)</option>
+                                            <option value="truck">Truck (Gasoline)</option>
+                                            <option value="hybrid">Hybrid Vehicle</option>
+                                            <option value="electric">Electric Vehicle</option>
+                                            <option value="diesel">Diesel Vehicle</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label class="input-label">Distance Traveled</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" class="form-input" id="vehicleDistance" placeholder="0" step="0.1">
+                                            <select class="unit-select" id="distanceUnit">
+                                                <option value="km">km</option>
+                                                <option value="miles">miles</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label class="input-label">Fuel Efficiency</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" class="form-input" id="fuelEfficiency" placeholder="8.5" step="0.1">
+                                            <span class="unit-label">L/100km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flights Tab -->
+                            <div class="tab-content" id="flights-tab">
+                                <div class="input-grid">
+                                    <div class="input-group">
+                                        <label class="input-label">Flight Distance</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" class="form-input" id="flightDistance" placeholder="0" step="1">
+                                            <span class="unit-label">km</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label class="input-label">Flight Class</label>
+                                        <select class="form-select" id="flightClass">
+                                            <option value="economy">Economy</option>
+                                            <option value="business">Business</option>
+                                            <option value="first">First Class</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label class="input-label">Number of Passengers</label>
+                                        <input type="number" class="form-input" id="flightPassengers" placeholder="1" min="1" step="1">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Public Transport Tab -->
+                            <div class="tab-content" id="public-tab">
+                                <div class="input-grid">
+                                    <div class="input-group">
+                                        <label class="input-label">Transport Type</label>
+                                        <select class="form-select" id="publicTransportType">
+                                            <option value="">Select Transport Type</option>
+                                            <option value="bus">Bus</option>
+                                            <option value="train">Train</option>
+                                            <option value="metro">Metro/Subway</option>
+                                            <option value="tram">Tram</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label class="input-label">Distance</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" class="form-input" id="publicDistance" placeholder="0" step="0.1">
+                                            <span class="unit-label">km</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label class="input-label">Trips per Month</label>
+                                        <input type="number" class="form-input" id="publicTrips" placeholder="0" min="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Refrigerants -->
+                    <div class="category-section" id="refrigerants-section">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <span class="material-icons">ac_unit</span>
+                            </div>
+                            <div class="category-info">
+                                <h3>Refrigerants</h3>
+                                <p>Calculate emissions from refrigerant leaks and disposal</p>
+                            </div>
+                            <div class="category-emissions" id="refrigerantsEmissions">0.00 tCO₂e</div>
+                        </div>
+                        
+                        <div class="category-content">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label class="input-label">Refrigerant Type</label>
+                                    <select class="form-select" id="refrigerantType">
+                                        <option value="">Select Refrigerant</option>
+                                        <option value="r22">R-22 (HCFC-22)</option>
+                                        <option value="r134a">R-134a (HFC-134a)</option>
+                                        <option value="r410a">R-410A (HFC-410A)</option>
+                                        <option value="r404a">R-404A (HFC-404A)</option>
+                                        <option value="r507">R-507 (HFC-507)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Refrigerant Amount</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="refrigerantAmount" placeholder="0" step="0.1">
+                                        <span class="unit-label">kg</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Leak Rate</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="leakRate" placeholder="5" min="0" max="100" step="0.1">
+                                        <span class="unit-label">% per year</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Consumption -->
+                    <div class="category-section" id="mobile-section">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <span class="material-icons">phone_android</span>
+                            </div>
+                            <div class="category-info">
+                                <h3>Mobile Consumption</h3>
+                                <p>Calculate emissions from mobile data and device usage</p>
+                            </div>
+                            <div class="category-emissions" id="mobileEmissions">0.00 tCO₂e</div>
+                        </div>
+                        
+                        <div class="category-content">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label class="input-label">Monthly Data Usage</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="dataUsage" placeholder="0" step="0.1">
+                                        <select class="unit-select" id="dataUnit">
+                                            <option value="gb">GB</option>
+                                            <option value="tb">TB</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Number of Devices</label>
+                                    <input type="number" class="form-input" id="deviceCount" placeholder="1" min="1" step="1">
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Device Type</label>
+                                    <select class="form-select" id="deviceType">
+                                        <option value="smartphone">Smartphone</option>
+                                        <option value="tablet">Tablet</option>
+                                        <option value="laptop">Laptop</option>
+                                        <option value="desktop">Desktop</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Combustion -->
+                    <div class="category-section" id="combustion-section">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <span class="material-icons">local_fire_department</span>
+                            </div>
+                            <div class="category-info">
+                                <h3>Combustion</h3>
+                                <p>Calculate emissions from fuel combustion and heating</p>
+                            </div>
+                            <div class="category-emissions" id="combustionEmissions">0.00 tCO₂e</div>
+                        </div>
+                        
+                        <div class="category-content">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label class="input-label">Fuel Type</label>
+                                    <select class="form-select" id="fuelType">
+                                        <option value="">Select Fuel Type</option>
+                                        <option value="natural-gas">Natural Gas</option>
+                                        <option value="propane">Propane</option>
+                                        <option value="heating-oil">Heating Oil</option>
+                                        <option value="coal">Coal</option>
+                                        <option value="wood">Wood</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Fuel Consumption</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" class="form-input" id="fuelConsumption" placeholder="0" step="0.1">
+                                        <select class="unit-select" id="fuelUnit">
+                                            <option value="cubic-meters">m³</option>
+                                            <option value="liters">L</option>
+                                            <option value="gallons">gallons</option>
+                                            <option value="tons">tons</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label class="input-label">Usage Period</label>
+                                    <select class="form-select" id="usagePeriod">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="annually">Annually</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results and Actions -->
+                <div class="results-section">
+                    <div class="results-header">
+                        <h3>Emission Analysis & Recommendations</h3>
+                        <div class="action-buttons">
+                            <button class="btn-secondary" id="resetCalculator">
+                                <span class="material-icons">refresh</span>
+                                Reset
+                            </button>
+                            <button class="btn-primary" id="saveData">
+                                <span class="material-icons">save</span>
+                                Save Data
+                            </button>
+                            <button class="btn-primary" id="exportReport">
+                                <span class="material-icons">download</span>
+                                Export Report
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="emission-breakdown">
+                        <div class="breakdown-chart" id="emissionChart">
+                            <!-- Chart will be rendered here -->
+                        </div>
+                        
+                        <div class="recommendations-panel">
+                            <h4>Reduction Recommendations</h4>
+                            <div class="recommendations-list" id="reductionRecommendations">
+                                <!-- Recommendations will be populated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,8 +431,8 @@
         </div>
     </div>
 
-    <!-- Custom Dashboard JavaScript -->
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <!-- Carbon Calculator JavaScript -->
+    <script src="{{ url_for('static', filename='js/carbon-calculator.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
     <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </body>

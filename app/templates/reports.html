@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Trivity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script>
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const theme = storedTheme || systemTheme;
+            
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        {% include 'components/sidebar.html' %}
+        
+        <div class="main-content">
+            {% include 'components/topbar.html' %}
+            
+            <div class="content-area">
+                <div class="reports-section">
+                    <div class="reports-header">
+                        <h1>Reports & Analytics</h1>
+                        <p>Generate comprehensive sustainability reports and export your data</p>
+                    </div>
+                    
+                    <div class="reports-grid">
+                        <!-- Assessment Report -->
+                        <div class="report-card">
+                            <div class="report-icon">
+                                <span class="material-icons">assessment</span>
+                            </div>
+                            <div class="report-content">
+                                <h3>Sustainability Assessment Report</h3>
+                                <p>Detailed analysis of your sustainability readiness index with category breakdowns and recommendations.</p>
+                                <div class="report-actions">
+                                    <button class="btn-primary" onclick="generateReport('assessment', 'excel')">
+                                        <span class="material-icons">download</span>
+                                        Download Excel
+                                    </button>
+                                    <button class="btn-secondary" onclick="generateReport('assessment', 'csv')">
+                                        <span class="material-icons">file_download</span>
+                                        Download CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Carbon Footprint Report -->
+                        <div class="report-card">
+                            <div class="report-icon">
+                                <span class="material-icons">eco</span>
+                            </div>
+                            <div class="report-content">
+                                <h3>Carbon Footprint Report</h3>
+                                <p>Comprehensive carbon emissions analysis with breakdown by source and reduction recommendations.</p>
+                                <div class="report-actions">
+                                    <button class="btn-primary" onclick="generateReport('carbon', 'excel')">
+                                        <span class="material-icons">download</span>
+                                        Download Excel
+                                    </button>
+                                    <button class="btn-secondary" onclick="generateReport('carbon', 'csv')">
+                                        <span class="material-icons">file_download</span>
+                                        Download CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- SDG Recommendations Report -->
+                        <div class="report-card">
+                            <div class="report-icon">
+                                <span class="material-icons">flag</span>
+                            </div>
+                            <div class="report-content">
+                                <h3>SDG Recommendations Report</h3>
+                                <p>AI-powered UN Sustainable Development Goals recommendations tailored to your organization.</p>
+                                <div class="report-actions">
+                                    <button class="btn-primary" onclick="generateReport('sdg', 'excel')">
+                                        <span class="material-icons">download</span>
+                                        Download Excel
+                                    </button>
+                                    <button class="btn-secondary" onclick="generateReport('sdg', 'csv')">
+                                        <span class="material-icons">file_download</span>
+                                        Download CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Comprehensive Report -->
+                        <div class="report-card featured">
+                            <div class="report-icon">
+                                <span class="material-icons">summarize</span>
+                            </div>
+                            <div class="report-content">
+                                <h3>Comprehensive Sustainability Report</h3>
+                                <p>Complete overview including assessment scores, carbon data, SDG recommendations, and AI insights.</p>
+                                <div class="report-actions">
+                                    <button class="btn-primary" onclick="generateReport('comprehensive', 'excel')">
+                                        <span class="material-icons">download</span>
+                                        Download Excel
+                                    </button>
+                                    <button class="btn-secondary" onclick="generateReport('comprehensive', 'csv')">
+                                        <span class="material-icons">file_download</span>
+                                        Download CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Report History -->
+                    <div class="report-history">
+                        <h2>Recent Reports</h2>
+                        <div class="history-list">
+                            <div class="history-item">
+                                <div class="history-icon">
+                                    <span class="material-icons">assessment</span>
+                                </div>
+                                <div class="history-content">
+                                    <h4>Assessment Report</h4>
+                                    <p>Generated on <span id="lastAssessmentDate">No data available</span></p>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn-icon" onclick="generateReport('assessment', 'excel')">
+                                        <span class="material-icons">refresh</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="history-item">
+                                <div class="history-icon">
+                                    <span class="material-icons">eco</span>
+                                </div>
+                                <div class="history-content">
+                                    <h4>Carbon Footprint Report</h4>
+                                    <p>Generated on <span id="lastCarbonDate">No data available</span></p>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn-icon" onclick="generateReport('carbon', 'excel')">
+                                        <span class="material-icons">refresh</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="history-item">
+                                <div class="history-icon">
+                                    <span class="material-icons">flag</span>
+                                </div>
+                                <div class="history-content">
+                                    <h4>SDG Recommendations Report</h4>
+                                    <p>Generated on <span id="lastSDGDate">No data available</span></p>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn-icon" onclick="generateReport('sdg', 'excel')">
+                                        <span class="material-icons">refresh</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading Overlay -->
+                    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                        <div class="loading-content">
+                            <div class="loading-spinner"></div>
+                            <h3>Generating Report...</h3>
+                            <p>Please wait while we prepare your report</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+</body>
+</html>
