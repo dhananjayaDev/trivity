@@ -60,6 +60,7 @@ class DashboardManager {
             this.initializeCircularProgress();
             this.updateScoreDisplays();
             this.updateAchievementDisplay();
+            this.updateDataCenter();
             this.loadCompanyData();
             
         } catch (error) {
@@ -181,6 +182,15 @@ class DashboardManager {
         // Proceed to Carbon Calculator button
         document.getElementById('proceedToCarbonCalculator')?.addEventListener('click', () => {
             this.navigateToPage('carbon-calculator');
+        });
+        
+        // Data Center actions
+        document.getElementById('refreshDataCenter')?.addEventListener('click', () => {
+            this.refreshDataCenter();
+        });
+        
+        document.getElementById('viewFullAnalytics')?.addEventListener('click', () => {
+            this.navigateToPage('data-center');
         });
         
         // Learn More buttons for SDG goals
@@ -810,6 +820,143 @@ class DashboardManager {
             if (goalLabel) {
                 goalLabel.textContent = this.sdgRecommendations.secondary.priority || 'Secondary';
                 goalLabel.className = `goal-label ${this.sdgRecommendations.secondary.priority || 'secondary'}-label`;
+            }
+        }
+    }
+    
+    updateDataCenter() {
+        // Update Data Center metrics with real data
+        this.updateDataCenterMetrics();
+        this.updateDataCenterInsights();
+    }
+    
+    updateDataCenterMetrics() {
+        // Update SRI Score
+        const sriElement = document.getElementById('dataCenterSRI');
+        const sriTrendElement = document.getElementById('dataCenterSRITrend');
+        if (sriElement) {
+            sriElement.textContent = `${this.scores.total.toFixed(1)}%`;
+        }
+        if (sriTrendElement && this.hasAssessment) {
+            sriTrendElement.innerHTML = `
+                <span class="material-icons">trending_up</span>
+                <span>Based on latest assessment</span>
+            `;
+        }
+        
+        // Update Carbon Footprint
+        const carbonElement = document.getElementById('dataCenterCarbon');
+        const carbonTrendElement = document.getElementById('dataCenterCarbonTrend');
+        if (carbonElement && this.userData.carbon_data) {
+            const totalEmissions = this.userData.carbon_data.total_emissions || 0;
+            carbonElement.textContent = `${totalEmissions.toFixed(2)} tCO₂e`;
+        }
+        if (carbonTrendElement && this.userData.carbon_data) {
+            carbonTrendElement.innerHTML = `
+                <span class="material-icons">eco</span>
+                <span>Latest calculation</span>
+            `;
+        }
+        
+        // Update SDG Goals
+        const sdgElement = document.getElementById('dataCenterSDG');
+        const sdgTrendElement = document.getElementById('dataCenterSDGTrend');
+        if (sdgElement && this.sdgRecommendations.primary) {
+            sdgElement.textContent = '2';
+        }
+        if (sdgTrendElement && this.sdgRecommendations.primary) {
+            sdgTrendElement.innerHTML = `
+                <span class="material-icons">flag</span>
+                <span>AI recommendations available</span>
+            `;
+        }
+        
+        // Update AI Insights
+        const aiElement = document.getElementById('dataCenterAI');
+        const aiTrendElement = document.getElementById('dataCenterAITrend');
+        if (aiElement && this.userData.ai_analysis) {
+            const insightsCount = Object.keys(this.userData.ai_analysis).length;
+            aiElement.textContent = insightsCount.toString();
+        }
+        if (aiTrendElement && this.userData.ai_analysis) {
+            aiTrendElement.innerHTML = `
+                <span class="material-icons">psychology</span>
+                <span>AI analysis complete</span>
+            `;
+        }
+    }
+    
+    updateDataCenterInsights() {
+        const insightsContainer = document.getElementById('quickInsights');
+        if (!insightsContainer) return;
+        
+        // Clear existing insights
+        insightsContainer.innerHTML = '';
+        
+        if (this.hasAssessment && this.userData.ai_analysis) {
+            // Show AI-generated insights
+            const insights = this.userData.ai_analysis;
+            
+            if (insights.overall_assessment) {
+                this.addInsightItem(insightsContainer, 'assessment', insights.overall_assessment);
+            }
+            
+            if (insights.key_insights && Array.isArray(insights.key_insights)) {
+                insights.key_insights.slice(0, 2).forEach(insight => {
+                    this.addInsightItem(insightsContainer, 'lightbulb', insight);
+                });
+            }
+            
+            if (insights.recommendations && Array.isArray(insights.recommendations)) {
+                insights.recommendations.slice(0, 1).forEach(rec => {
+                    this.addInsightItem(insightsContainer, 'recommendation', rec);
+                });
+            }
+        } else {
+            // Show default insight
+            this.addInsightItem(insightsContainer, 'lightbulb', 'Complete your sustainability assessment to unlock personalized AI insights and recommendations');
+        }
+    }
+    
+    addInsightItem(container, icon, text) {
+        const insightItem = document.createElement('div');
+        insightItem.className = 'insight-item';
+        insightItem.innerHTML = `
+            <span class="material-icons">${icon}</span>
+            <span>${text}</span>
+        `;
+        container.appendChild(insightItem);
+    }
+    
+    async refreshDataCenter() {
+        // Show loading state
+        const refreshBtn = document.getElementById('refreshDataCenter');
+        if (refreshBtn) {
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<span class="material-icons">refresh</span> Refreshing...';
+            refreshBtn.disabled = true;
+            
+            try {
+                // Reload user data
+                await this.loadUserData();
+                
+                // Update Data Center
+                this.updateDataCenter();
+                
+                // Show success feedback
+                refreshBtn.innerHTML = '<span class="material-icons">check</span> Refreshed';
+                setTimeout(() => {
+                    refreshBtn.innerHTML = originalText;
+                    refreshBtn.disabled = false;
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error refreshing data center:', error);
+                refreshBtn.innerHTML = '<span class="material-icons">error</span> Error';
+                setTimeout(() => {
+                    refreshBtn.innerHTML = originalText;
+                    refreshBtn.disabled = false;
+                }, 2000);
             }
         }
     }

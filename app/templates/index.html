@@ -214,22 +214,102 @@
                 <!-- Data Center Section -->
                 <div class="data-center-section">
                     <div class="data-center-header">
-                        <h2>Data Center</h2>
+                        <div class="data-center-title">
+                            <h2>Data Center</h2>
+                            <p class="data-center-subtitle">Real-time sustainability analytics and insights</p>
+                        </div>
+                        <div class="data-center-actions">
+                            <button class="btn-secondary" id="refreshDataCenter">
+                                <span class="material-icons">refresh</span>
+                                Refresh
+                            </button>
+                            <button class="btn-primary" id="viewFullAnalytics">
+                                <span class="material-icons">analytics</span>
+                                View Full Analytics
+                            </button>
+                        </div>
                     </div>
                     
                     <div class="data-center-content">
-                        <div class="data-center-placeholder">
-                            <div class="placeholder-icon">
-                                <span class="material-icons">storage</span>
+                        <!-- Real-time Metrics Grid -->
+                        <div class="metrics-grid" id="dataCenterMetrics">
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <span class="material-icons">assessment</span>
+                                </div>
+                                <div class="metric-content">
+                                    <h3>Sustainability Score</h3>
+                                    <div class="metric-value" id="dataCenterSRI">0%</div>
+                                    <div class="metric-trend" id="dataCenterSRITrend">
+                                        <span class="material-icons">trending_up</span>
+                                        <span>Complete assessment to see trend</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="placeholder-text">
-                                <h3>No Data Available</h3>
-                                <p>Sorry, there is no information available to show. Please click the button below to fill in the required information.</p>
+                            
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <span class="material-icons">eco</span>
+                                </div>
+                                <div class="metric-content">
+                                    <h3>Carbon Footprint</h3>
+                                    <div class="metric-value" id="dataCenterCarbon">0.00 tCO₂e</div>
+                                    <div class="metric-trend" id="dataCenterCarbonTrend">
+                                        <span class="material-icons">info</span>
+                                        <span>Use calculator to track emissions</span>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="btn-primary proceed-btn" id="proceedToCarbonCalculator">
-                                <span class="material-icons">calculate</span>
-                                Proceed to Carbon Emissions Calculator
-                            </button>
+                            
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <span class="material-icons">flag</span>
+                                </div>
+                                <div class="metric-content">
+                                    <h3>SDG Goals</h3>
+                                    <div class="metric-value" id="dataCenterSDG">0</div>
+                                    <div class="metric-trend" id="dataCenterSDGTrend">
+                                        <span class="material-icons">info</span>
+                                        <span>Complete assessment for recommendations</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card">
+                                <div class="metric-icon">
+                                    <span class="material-icons">psychology</span>
+                                </div>
+                                <div class="metric-content">
+                                    <h3>AI Insights</h3>
+                                    <div class="metric-value" id="dataCenterAI">0</div>
+                                    <div class="metric-trend" id="dataCenterAITrend">
+                                        <span class="material-icons">info</span>
+                                        <span>AI analysis available after assessment</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Analytics Preview -->
+                        <div class="analytics-preview" id="analyticsPreview">
+                            <div class="preview-header">
+                                <h3>Quick Analytics</h3>
+                                <span class="preview-badge">Live Data</span>
+                            </div>
+                            <div class="preview-content">
+                                <div class="preview-chart" id="quickChart">
+                                    <div class="chart-placeholder">
+                                        <span class="material-icons">bar_chart</span>
+                                        <p>Complete assessments to see analytics</p>
+                                    </div>
+                                </div>
+                                <div class="preview-insights" id="quickInsights">
+                                    <div class="insight-item">
+                                        <span class="material-icons">lightbulb</span>
+                                        <span>Complete your sustainability assessment to unlock personalized insights</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

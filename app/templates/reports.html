@@ -31,8 +31,37 @@
             <div class="content-area">
                 <div class="reports-section">
                     <div class="reports-header">
-                        <h1>Reports & Analytics</h1>
-                        <p>Generate comprehensive sustainability reports and export your data</p>
+                        <div class="reports-title">
+                            <h1>Reports & Analytics</h1>
+                            <p>AI-powered comprehensive sustainability reports and data export</p>
+                        </div>
+                        <div class="reports-actions">
+                            <button class="btn-secondary" id="refreshReports">
+                                <span class="material-icons">refresh</span>
+                                Refresh Data
+                            </button>
+                            <button class="btn-primary" id="generateAllReports">
+                                <span class="material-icons">download</span>
+                                Generate All Reports
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Insights Panel -->
+                    <div class="ai-insights-panel" id="aiInsightsPanel">
+                        <div class="insights-header">
+                            <h2>
+                                <span class="material-icons">psychology</span>
+                                AI-Powered Insights
+                            </h2>
+                            <span class="insights-badge">Live Analysis</span>
+                        </div>
+                        <div class="insights-content" id="insightsContent">
+                            <div class="insights-loading">
+                                <span class="material-icons">hourglass_empty</span>
+                                <p>Loading AI insights...</p>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="reports-grid">
@@ -43,7 +72,12 @@
                             </div>
                             <div class="report-content">
                                 <h3>Sustainability Assessment Report</h3>
-                                <p>Detailed analysis of your sustainability readiness index with category breakdowns and recommendations.</p>
+                                <p>AI-enhanced analysis of your sustainability readiness index with category breakdowns, trends, and personalized recommendations.</p>
+                                <div class="report-features">
+                                    <span class="feature-tag">AI Analysis</span>
+                                    <span class="feature-tag">Trend Analysis</span>
+                                    <span class="feature-tag">Benchmarking</span>
+                                </div>
                                 <div class="report-actions">
                                     <button class="btn-primary" onclick="generateReport('assessment', 'excel')">
                                         <span class="material-icons">download</span>
@@ -52,6 +86,10 @@
                                     <button class="btn-secondary" onclick="generateReport('assessment', 'csv')">
                                         <span class="material-icons">file_download</span>
                                         Download CSV
+                                    </button>
+                                    <button class="btn-outline" onclick="previewReport('assessment')">
+                                        <span class="material-icons">visibility</span>
+                                        Preview
                                     </button>
                                 </div>
                             </div>
@@ -64,7 +102,12 @@
                             </div>
                             <div class="report-content">
                                 <h3>Carbon Footprint Report</h3>
-                                <p>Comprehensive carbon emissions analysis with breakdown by source and reduction recommendations.</p>
+                                <p>AI-powered carbon emissions analysis with intelligent reduction strategies, industry benchmarks, and cost-benefit analysis.</p>
+                                <div class="report-features">
+                                    <span class="feature-tag">AI Recommendations</span>
+                                    <span class="feature-tag">Cost Analysis</span>
+                                    <span class="feature-tag">Industry Benchmarks</span>
+                                </div>
                                 <div class="report-actions">
                                     <button class="btn-primary" onclick="generateReport('carbon', 'excel')">
                                         <span class="material-icons">download</span>
@@ -73,6 +116,10 @@
                                     <button class="btn-secondary" onclick="generateReport('carbon', 'csv')">
                                         <span class="material-icons">file_download</span>
                                         Download CSV
+                                    </button>
+                                    <button class="btn-outline" onclick="previewReport('carbon')">
+                                        <span class="material-icons">visibility</span>
+                                        Preview
                                     </button>
                                 </div>
                             </div>
@@ -85,7 +132,12 @@
                             </div>
                             <div class="report-content">
                                 <h3>SDG Recommendations Report</h3>
-                                <p>AI-powered UN Sustainable Development Goals recommendations tailored to your organization.</p>
+                                <p>AI-powered UN Sustainable Development Goals recommendations with implementation roadmaps, impact assessments, and progress tracking.</p>
+                                <div class="report-features">
+                                    <span class="feature-tag">Implementation Roadmap</span>
+                                    <span class="feature-tag">Impact Assessment</span>
+                                    <span class="feature-tag">Progress Tracking</span>
+                                </div>
                                 <div class="report-actions">
                                     <button class="btn-primary" onclick="generateReport('sdg', 'excel')">
                                         <span class="material-icons">download</span>
@@ -94,6 +146,10 @@
                                     <button class="btn-secondary" onclick="generateReport('sdg', 'csv')">
                                         <span class="material-icons">file_download</span>
                                         Download CSV
+                                    </button>
+                                    <button class="btn-outline" onclick="previewReport('sdg')">
+                                        <span class="material-icons">visibility</span>
+                                        Preview
                                     </button>
                                 </div>
                             </div>
@@ -106,7 +162,13 @@
                             </div>
                             <div class="report-content">
                                 <h3>Comprehensive Sustainability Report</h3>
-                                <p>Complete overview including assessment scores, carbon data, SDG recommendations, and AI insights.</p>
+                                <p>AI-powered executive summary with complete sustainability overview, strategic recommendations, and actionable insights for leadership.</p>
+                                <div class="report-features">
+                                    <span class="feature-tag">Executive Summary</span>
+                                    <span class="feature-tag">Strategic Recommendations</span>
+                                    <span class="feature-tag">Actionable Insights</span>
+                                    <span class="feature-tag">Leadership Ready</span>
+                                </div>
                                 <div class="report-actions">
                                     <button class="btn-primary" onclick="generateReport('comprehensive', 'excel')">
                                         <span class="material-icons">download</span>
