@@ -771,21 +771,57 @@ class DashboardManager {
             const title = primaryGoal.querySelector('h3');
             const description = primaryGoal.querySelector('.sdg-description');
             const number = primaryGoal.querySelector('.sdg-number');
+            const symbol = primaryGoal.querySelector('.sdg-symbol');
+            const relevance = document.getElementById('primary-relevance');
+            const timeline = document.getElementById('primary-timeline');
             
             if (title) title.textContent = this.sdgRecommendations.primary.title;
             if (description) description.textContent = this.sdgRecommendations.primary.description;
-            if (number) number.textContent = this.sdgRecommendations.primary.goal;
+            if (number) number.textContent = this.sdgRecommendations.primary.number;
+            if (symbol) symbol.textContent = this.getSDGSymbol(this.sdgRecommendations.primary.number);
+            if (relevance) relevance.textContent = `${this.sdgRecommendations.primary.relevance_score || 85}%`;
+            if (timeline) timeline.textContent = this.sdgRecommendations.primary.implementation_timeline || '6-12 months';
+            
+            // Update goal label with priority
+            const goalLabel = primaryGoal.querySelector('.goal-label');
+            if (goalLabel) {
+                goalLabel.textContent = this.sdgRecommendations.primary.priority || 'Primary';
+                goalLabel.className = `goal-label ${this.sdgRecommendations.primary.priority || 'primary'}-label`;
+            }
         }
         
         if (secondaryGoal && this.sdgRecommendations.secondary) {
             const title = secondaryGoal.querySelector('h3');
             const description = secondaryGoal.querySelector('.sdg-description');
             const number = secondaryGoal.querySelector('.sdg-number');
+            const symbol = secondaryGoal.querySelector('.sdg-symbol');
+            const relevance = document.getElementById('secondary-relevance');
+            const timeline = document.getElementById('secondary-timeline');
             
             if (title) title.textContent = this.sdgRecommendations.secondary.title;
             if (description) description.textContent = this.sdgRecommendations.secondary.description;
-            if (number) number.textContent = this.sdgRecommendations.secondary.goal;
+            if (number) number.textContent = this.sdgRecommendations.secondary.number;
+            if (symbol) symbol.textContent = this.getSDGSymbol(this.sdgRecommendations.secondary.number);
+            if (relevance) relevance.textContent = `${this.sdgRecommendations.secondary.relevance_score || 72}%`;
+            if (timeline) timeline.textContent = this.sdgRecommendations.secondary.implementation_timeline || '12-18 months';
+            
+            // Update goal label with priority
+            const goalLabel = secondaryGoal.querySelector('.goal-label');
+            if (goalLabel) {
+                goalLabel.textContent = this.sdgRecommendations.secondary.priority || 'Secondary';
+                goalLabel.className = `goal-label ${this.sdgRecommendations.secondary.priority || 'secondary'}-label`;
+            }
         }
+    }
+    
+    getSDGSymbol(sdgNumber) {
+        // SDG symbols/emojis for visual representation
+        const sdgSymbols = {
+            1: '🚫', 2: '🍽️', 3: '🏥', 4: '📚', 5: '👩', 6: '💧', 7: '⚡', 8: '💼',
+            9: '🏭', 10: '⚖️', 11: '🏙️', 12: '♻️', 13: '🌍', 14: '🐠', 15: '🌳',
+            16: '🕊️', 17: '🤝'
+        };
+        return sdgSymbols[sdgNumber] || '🎯';
     }
 }
 

@@ -376,6 +376,9 @@ class SRIService:
             # Generate AI analysis (synchronous for now)
             ai_analysis = self._generate_ai_analysis_sync(answers, category_scores, context)
 
+            # Generate SDG recommendations based on assessment scores
+            sdg_recommendations = self._generate_sdg_recommendations(user_id, category_scores, context)
+
             # Create assessment document
             assessment_doc = {
                 'user_id': ObjectId(user_id),
@@ -390,7 +393,8 @@ class SRIService:
                 'created_at': datetime.utcnow(),
                 'updated_at': datetime.utcnow(),
                 'status': 'completed',
-                'ai_analysis': ai_analysis
+                'ai_analysis': ai_analysis,
+                'sdg_recommendations': sdg_recommendations
             }
 
             # Save to database
@@ -608,6 +612,38 @@ class SRIService:
                 'last_assessment_date': None,
                 'ai_analysis': {}
             }
+
+    def _generate_sdg_recommendations(self, user_id: str, category_scores: Dict, context: Dict) -> List[Dict]:
+        """Generate SDG recommendations based on assessment scores"""
+        try:
+            # Create user profile for AI service
+            user_profile = {
+                'company': context.get('company', 'Unknown'),
+                'industry': context.get('industry', 'Not specified'),
+                'size': context.get('company_size', 'Not specified')
+            }
+            
+            # Generate SDG recommendations using AI service
+            sdg_recommendations = ai_service.generate_sdg_recommendations(user_profile, category_scores)
+            
+            # Save SDG recommendations to database
+            from app.database import db_manager
+            sdg_collection = db_manager.get_sdg_recommendations_collection()
+            sdg_data = {
+                'user_id': ObjectId(user_id),
+                'recommendations': sdg_recommendations,
+                'generated_at': datetime.utcnow(),
+                'category_scores': category_scores
+            }
+            sdg_collection.insert_one(sdg_data)
+            
+            logging.info(f"SDG recommendations generated for user {user_id}")
+            return sdg_recommendations
+            
+        except Exception as e:
+            logging.error(f"Error generating SDG recommendations: {e}")
+            # Return fallback recommendations
+            return ai_service._get_fallback_sdg_recommendations()
 
     def get_assessment_history(self, user_id: str) -> List[Dict]:
         """Get user's assessment history"""

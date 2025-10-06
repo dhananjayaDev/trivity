@@ -189,33 +189,59 @@ class GeminiAIService:
     def _build_sdg_prompt(self, user_profile: Dict, assessment_scores: Dict) -> str:
         """Build prompt for SDG recommendations"""
         return f"""
-        You are a sustainability expert AI recommending UN SDG goals for a company.
+        You are a sustainability expert AI recommending UN SDG goals for a company based on their sustainability readiness assessment.
         
         Company Profile:
         - Name: {user_profile.get('company', 'Unknown')}
         - Industry: {user_profile.get('industry', 'Not specified')}
         - Size: {user_profile.get('size', 'Not specified')}
         
-        Assessment Scores:
-        {json.dumps(assessment_scores, indent=2)}
+        Sustainability Assessment Scores (0-100%):
+        - Environmental Management: {assessment_scores.get('environmental_management', 0):.1f}%
+        - Social Responsibility: {assessment_scores.get('social_responsibility', 0):.1f}%
+        - Economic Sustainability: {assessment_scores.get('economic_sustainability', 0):.1f}%
+        - Governance & Compliance: {assessment_scores.get('governance_compliance', 0):.1f}%
+        - Innovation & Technology: {assessment_scores.get('innovation_technology', 0):.1f}%
+        - Stakeholder Engagement: {assessment_scores.get('stakeholder_engagement', 0):.1f}%
+        - Total Score: {assessment_scores.get('total_score', 0):.1f}%
         
-        Recommend the top 2 most relevant UN SDG goals for this company based on their profile and assessment scores.
+        Based on these assessment scores, recommend the top 2 most relevant UN SDG goals that align with the company's current sustainability performance and offer the greatest impact opportunities.
+        
+        Consider:
+        1. Which SDGs match the company's strongest performance areas for building on success
+        2. Which SDGs address the company's weakest areas for maximum improvement potential
+        3. Industry-specific relevance and typical SDG priorities
+        4. Feasibility and implementation timeline for the company's size and resources
         
         Respond in JSON format with this structure:
         {{
             "primary_goal": {{
                 "number": 7,
                 "title": "Affordable and Clean Energy",
-                "description": "Why this goal is relevant",
+                "description": "Detailed explanation of why this goal is most relevant based on assessment scores and company profile",
                 "priority": "high",
-                "opportunities": ["opportunity1", "opportunity2"]
+                "relevance_score": 85,
+                "opportunities": [
+                    "Specific opportunity 1 with implementation details",
+                    "Specific opportunity 2 with expected impact",
+                    "Specific opportunity 3 with timeline"
+                ],
+                "implementation_timeline": "6-12 months",
+                "expected_impact": "High - aligns with environmental management strengths"
             }},
             "secondary_goal": {{
                 "number": 13,
                 "title": "Climate Action",
-                "description": "Why this goal is relevant",
+                "description": "Detailed explanation of why this goal is second most relevant based on assessment scores and company profile",
                 "priority": "medium",
-                "opportunities": ["opportunity1", "opportunity2"]
+                "relevance_score": 72,
+                "opportunities": [
+                    "Specific opportunity 1 with implementation details",
+                    "Specific opportunity 2 with expected impact",
+                    "Specific opportunity 3 with timeline"
+                ],
+                "implementation_timeline": "12-18 months",
+                "expected_impact": "Medium - addresses governance compliance gaps"
             }}
         }}
         """
@@ -373,16 +399,30 @@ class GeminiAIService:
             {
                 "number": 7,
                 "title": "Affordable and Clean Energy",
-                "description": "Focus on renewable energy adoption and energy efficiency",
+                "description": "Focus on renewable energy adoption and energy efficiency to reduce environmental impact and operational costs",
                 "priority": "high",
-                "opportunities": ["Solar panel installation", "Energy efficiency audits"]
+                "relevance_score": 85,
+                "opportunities": [
+                    "Install solar panels or purchase renewable energy credits",
+                    "Conduct energy efficiency audits and implement improvements",
+                    "Switch to LED lighting and energy-efficient equipment"
+                ],
+                "implementation_timeline": "6-12 months",
+                "expected_impact": "High - immediate cost savings and environmental benefits"
             },
             {
                 "number": 13,
                 "title": "Climate Action",
-                "description": "Implement climate change mitigation strategies",
+                "description": "Implement comprehensive climate change mitigation and adaptation strategies",
                 "priority": "medium",
-                "opportunities": ["Carbon offset programs", "Climate risk assessment"]
+                "relevance_score": 72,
+                "opportunities": [
+                    "Develop carbon reduction targets and action plans",
+                    "Implement carbon offset programs for unavoidable emissions",
+                    "Conduct climate risk assessments and adaptation planning"
+                ],
+                "implementation_timeline": "12-18 months",
+                "expected_impact": "Medium - long-term climate resilience and compliance"
             }
         ]
     

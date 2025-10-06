@@ -245,9 +245,14 @@ class DataPersistenceService:
                     }
                 }
             
-            # Get SDG recommendations
-            if progress['latest_sdg']:
-                dashboard_data['sdg_recommendations'] = progress['latest_sdg'].get('recommendations', [])
+            # Get SDG recommendations from latest assessment
+            latest_assessment = sri_service.get_latest_assessment(user_id)
+            if latest_assessment and latest_assessment.get('sdg_recommendations'):
+                dashboard_data['sdg_recommendations'] = latest_assessment['sdg_recommendations']
+            else:
+                # Fallback to separate SDG collection if not in assessment
+                if progress['latest_sdg']:
+                    dashboard_data['sdg_recommendations'] = progress['latest_sdg'].get('recommendations', [])
             
             return dashboard_data
             
