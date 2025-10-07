@@ -43,11 +43,12 @@ class SDGRecommendationManager {
     
     validateCurrentStep() {
         if (this.currentStep === 1) {
-            const requiredFields = ['companyName', 'industry', 'companySize', 'country'];
+            const requiredFields = ['companyName', 'industry', 'companySize', 'country', 'internationalEmployees', 'governmentalBody'];
             for (const field of requiredFields) {
                 const element = document.getElementById(field);
                 if (!element || !element.value.trim()) {
-                    alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+                    const fieldName = field.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase());
+                    alert(`Please fill in the ${fieldName}`);
                     return false;
                 }
             }
@@ -67,6 +68,7 @@ class SDGRecommendationManager {
     collectFormData() {
         const fields = [
             'companyName', 'industry', 'companySize', 'country', 'companyDescription',
+            'internationalEmployees', 'governmentalBody',
             'projectName', 'projectType', 'projectDuration', 'budgetRange', 
             'projectDescription', 'targetBeneficiaries'
         ];
