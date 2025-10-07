@@ -2942,7 +2942,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 48px;
 }
 
 .data-center-title h2 {
@@ -2972,8 +2972,10 @@ body {
     border: 1px solid var(--border-primary);
     border-radius: 24px;
     padding: 32px;
-    margin-bottom: 32px;
+    margin-bottom: 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 400px;
 }
 
 .dashboard-header {
@@ -3407,8 +3409,10 @@ body {
     border: 1px solid var(--border-primary);
     border-radius: 24px;
     padding: 32px;
-    margin-bottom: 40px;
+    margin-bottom: 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 400px;
 }
 
 .section-header {
@@ -3939,7 +3943,7 @@ body {
     background-clip: text;
     font-size: 32px;
     font-weight: 800;
-    margin: 0;
+    margin: 0 0 16px 0;
     letter-spacing: -0.5px;
     position: relative;
 }
@@ -3947,7 +3951,7 @@ body {
 .data-center-header h2::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -12px;
     left: 50%;
     transform: translateX(-50%);
     width: 60px;
@@ -3959,6 +3963,8 @@ body {
 .data-center-content {
     display: flex;
     justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
 .data-center-placeholder {
